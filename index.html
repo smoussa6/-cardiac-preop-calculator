@@ -1,0 +1,1996 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Cardiac PreOp Risk Assessment Tool</title>  
+    <style>  
+        * {  
+            margin: 0;  
+            padding: 0;  
+            box-sizing: border-box;  
+        }
+
+        :root {  
+            --primary: #1a5f7a;  
+            --primary-light: #2d8fb8;  
+            --secondary: #57c5b6;  
+            --danger: #dc3545;  
+            --warning: #ffc107;  
+            --success: #28a745;  
+            --light: #f8f9fa;  
+            --dark: #343a40;  
+            --gray: #6c757d;  
+            --purple: #8e44ad;  
+            --orange: #e67e22;  
+            --teal: #17a2b8;  
+        }
+
+        body {  
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
+            background: linear-gradient(135deg, #1a5f7a 0%, #2d8fb8 100%);  
+            min-height: 100vh;  
+            padding: 20px;  
+        }
+
+        .container {  
+            max-width: 1400px;  
+            margin: 0 auto;  
+        }
+
+        header {  
+            background: white;  
+            padding: 20px 30px;  
+            border-radius: 15px;  
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);  
+            margin-bottom: 20px;  
+            display: flex;  
+            justify-content: space-between;  
+            align-items: center;  
+            flex-wrap: wrap;  
+            gap: 15px;  
+        }
+
+        .logo {  
+            display: flex;  
+            align-items: center;  
+            gap: 15px;  
+        }
+
+        .logo svg {  
+            width: 50px;  
+            height: 50px;  
+            fill: var(--danger);  
+        }
+
+        .logo h1 {  
+            color: var(--primary);  
+            font-size: 1.5rem;  
+        }
+
+        .logo span {  
+            color: var(--gray);  
+            font-size: 0.9rem;  
+        }
+
+        .header-actions {  
+            display: flex;  
+            gap: 10px;  
+            flex-wrap: wrap;  
+        }
+
+        .btn {  
+            padding: 10px 20px;  
+            border: none;  
+            border-radius: 8px;  
+            cursor: pointer;  
+            font-size: 0.9rem;  
+            font-weight: 600;  
+            transition: all 0.3s;  
+            display: flex;  
+            align-items: center;  
+            gap: 8px;  
+        }
+
+        .btn-primary {  
+            background: var(--primary);  
+            color: white;  
+        }
+
+        .btn-primary:hover {  
+            background: var(--primary-light);  
+            transform: translateY(-2px);  
+        }
+
+        .btn-success {  
+            background: var(--success);  
+            color: white;  
+        }
+
+        .btn-success:hover {  
+            background: #218838;  
+        }
+
+        .btn-outline {  
+            background: transparent;  
+            border: 2px solid var(--primary);  
+            color: var(--primary);  
+        }
+
+        .btn-outline:hover {  
+            background: var(--primary);  
+            color: white;  
+        }
+
+        .tabs {  
+            display: flex;  
+            gap: 5px;  
+            background: white;  
+            padding: 10px;  
+            border-radius: 15px;  
+            margin-bottom: 20px;  
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);  
+            flex-wrap: wrap;  
+        }
+
+        .tab {  
+            padding: 12px 24px;  
+            border: none;  
+            background: transparent;  
+            cursor: pointer;  
+            border-radius: 10px;  
+            font-weight: 600;  
+            color: var(--gray);  
+            transition: all 0.3s;  
+            font-size: 1rem;  
+        }
+
+        .tab:hover {  
+            background: var(--light);  
+        }
+
+        .tab.active {  
+            background: var(--primary);  
+            color: white;  
+        }
+
+        .tab-content {  
+            display: none;  
+        }
+
+        .tab-content.active {  
+            display: block;  
+        }
+
+        .card {  
+            background: white;  
+            border-radius: 15px;  
+            padding: 25px;  
+            margin-bottom: 20px;  
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);  
+        }
+
+        .card-header {  
+            display: flex;  
+            justify-content: space-between;  
+            align-items: center;  
+            margin-bottom: 20px;  
+            padding-bottom: 15px;  
+            border-bottom: 2px solid var(--light);  
+        }
+
+        .card-title {  
+            color: var(--primary);  
+            font-size: 1.3rem;  
+            display: flex;  
+            align-items: center;  
+            gap: 10px;  
+        }
+
+        .grid {  
+            display: grid;  
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));  
+            gap: 25px;  
+        }
+
+        .form-group {  
+            margin-bottom: 15px;  
+        }
+
+        .form-group label {  
+            display: block;  
+            margin-bottom: 5px;  
+            font-weight: 600;  
+            color: var(--dark);  
+        }
+
+        .form-group input,  
+        .form-group select,  
+        .form-group textarea {  
+            width: 100%;  
+            padding: 12px;  
+            border: 2px solid #e0e0e0;  
+            border-radius: 8px;  
+            font-size: 1rem;  
+            transition: border-color 0.3s;  
+        }
+
+        .form-group input:focus,  
+        .form-group select:focus,  
+        .form-group textarea:focus {  
+            outline: none;  
+            border-color: var(--primary);  
+        }
+
+        .form-row {  
+            display: grid;  
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));  
+            gap: 15px;  
+        }
+
+        .checkbox-group {  
+            display: grid;  
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));  
+            gap: 10px;  
+        }
+
+        .checkbox-item {  
+            display: flex;  
+            align-items: center;  
+            gap: 10px;  
+            padding: 12px;  
+            background: var(--light);  
+            border-radius: 8px;  
+            cursor: pointer;  
+            transition: all 0.3s;  
+        }
+
+        .checkbox-item:hover {  
+            background: #e9ecef;  
+        }
+
+        .checkbox-item input[type="checkbox"] {  
+            width: 20px;  
+            height: 20px;  
+            cursor: pointer;  
+        }
+
+        /* Risk Calculator Display */  
+        .risk-calculator {  
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);  
+            color: white;  
+            border-radius: 15px;  
+            padding: 25px;  
+            margin-bottom: 20px;  
+        }
+
+        .risk-calculator.aubhas {  
+            background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%);  
+        }
+
+        .risk-calculator.nsqip {  
+            background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);  
+        }
+
+        .risk-calculator.mets-calc {  
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);  
+        }
+
+        .risk-score {  
+            display: flex;  
+            align-items: center;  
+            justify-content: center;  
+            gap: 30px;  
+            flex-wrap: wrap;  
+        }
+
+        .score-circle {  
+            width: 120px;  
+            height: 120px;  
+            border-radius: 50%;  
+            background: rgba(255,255,255,0.2);  
+            display: flex;  
+            flex-direction: column;  
+            align-items: center;  
+            justify-content: center;  
+            border: 4px solid white;  
+        }
+
+        .score-value {  
+            font-size: 2.5rem;  
+            font-weight: bold;  
+        }
+
+        .score-label {  
+            font-size: 0.85rem;  
+            opacity: 0.9;  
+        }
+
+        .risk-level {  
+            padding: 12px 24px;  
+            border-radius: 10px;  
+            font-weight: bold;  
+            font-size: 1.1rem;  
+        }
+
+        .risk-low { background: var(--success); }  
+        .risk-moderate { background: var(--warning); color: var(--dark); }  
+        .risk-high { background: var(--danger); }
+
+        .risk-details {  
+            margin-top: 20px;  
+            text-align: center;  
+        }
+
+        .risk-bar {  
+            height: 12px;  
+            background: rgba(255,255,255,0.3);  
+            border-radius: 6px;  
+            margin-top: 10px;  
+            overflow: hidden;  
+        }
+
+        .risk-bar-fill {  
+            height: 100%;  
+            border-radius: 6px;  
+            transition: width 0.5s;  
+        }
+
+        /* Calculator Item Styles */  
+        .calc-item {  
+            display: flex;  
+            align-items: center;  
+            gap: 15px;  
+            padding: 14px 16px;  
+            background: var(--light);  
+            border-radius: 10px;  
+            margin-bottom: 10px;  
+            cursor: pointer;  
+            transition: all 0.3s;  
+            border: 2px solid transparent;  
+        }
+
+        .calc-item:hover {  
+            background: #e3f2fd;  
+        }
+
+        .calc-item.selected {  
+            background: #bbdefb;  
+            border-color: var(--primary);  
+        }
+
+        .calc-item.rcri-item.selected {  
+            background: #bbdefb;  
+            border-color: var(--primary);  
+        }
+
+        .calc-item.aubhas-item.selected {  
+            background: #fdebd0;  
+            border-color: var(--orange);  
+        }
+
+        .calc-item.nsqip-item.selected {  
+            background: #d1ecf1;  
+            border-color: var(--teal);  
+        }
+
+        .calc-item input[type="checkbox"] {  
+            width: 22px;  
+            height: 22px;  
+            cursor: pointer;  
+            flex-shrink: 0;  
+        }
+
+        .calc-item label {  
+            flex: 1;  
+            cursor: pointer;  
+        }
+
+        .calc-item label strong {  
+            display: block;  
+            margin-bottom: 3px;  
+            color: var(--dark);  
+        }
+
+        .calc-item label small {  
+            color: var(--gray);  
+            font-size: 0.85rem;  
+            line-height: 1.3;  
+        }
+
+        .calc-item .points {  
+            padding: 5px 14px;  
+            border-radius: 20px;  
+            font-size: 0.8rem;  
+            font-weight: bold;  
+            color: white;  
+            flex-shrink: 0;  
+        }
+
+        .calc-item.rcri-item .points { background: var(--primary); }  
+        .calc-item.aubhas-item .points { background: var(--orange); }  
+        .calc-item.nsqip-item .points { background: var(--teal); }
+
+        /* Calculator Tabs */  
+        .calc-tabs {  
+            display: flex;  
+            gap: 8px;  
+            margin-bottom: 25px;  
+            flex-wrap: wrap;  
+        }
+
+        .calc-tab {  
+            padding: 12px 24px;  
+            border: 2px solid var(--primary);  
+            background: white;  
+            color: var(--primary);  
+            border-radius: 8px;  
+            cursor: pointer;  
+            font-weight: 600;  
+            transition: all 0.3s;  
+            font-size: 0.95rem;  
+        }
+
+        .calc-tab:hover {  
+            background: var(--light);  
+        }
+
+        .calc-tab.active {  
+            background: var(--primary);  
+            color: white;  
+        }
+
+        .calc-content {  
+            display: none;  
+        }
+
+        .calc-content.active {  
+            display: block;  
+        }
+
+        /* Score comparison boxes */  
+        .score-comparison {  
+            display: grid;  
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));  
+            gap: 15px;  
+            margin-top: 20px;  
+        }
+
+        .score-box {  
+            padding: 20px 15px;  
+            border-radius: 12px;  
+            text-align: center;  
+            color: white;  
+        }
+
+        .score-box.rcri { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); }  
+        .score-box.aubhas { background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%); }  
+        .score-box.nsqip { background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%); }  
+        .score-box.mets { background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); }
+
+        .score-box h4 {  
+            margin-bottom: 8px;  
+            font-size: 0.9rem;  
+            opacity: 0.95;  
+        }
+
+        .score-box .big-score {  
+            font-size: 2.2rem;  
+            font-weight: bold;  
+        }
+
+        .score-box .score-desc {  
+            font-size: 0.85rem;  
+            margin-top: 5px;  
+            opacity: 0.9;  
+        }
+
+        /* Recommendation boxes */  
+        .recommendation-box {  
+            background: #e3f2fd;  
+            border-left: 4px solid var(--primary);  
+            padding: 15px 20px;  
+            border-radius: 0 10px 10px 0;  
+            margin: 15px 0;  
+        }
+
+        .recommendation-box h4 {  
+            color: var(--primary);  
+            margin-bottom: 8px;  
+        }
+
+        .recommendation-box.orange {  
+            background: #fef5e7;  
+            border-color: var(--orange);  
+        }
+
+        .recommendation-box.orange h4 {  
+            color: var(--orange);  
+        }
+
+        .recommendation-box.teal {  
+            background: #e8f6f8;  
+            border-color: var(--teal);  
+        }
+
+        .recommendation-box.teal h4 {  
+            color: var(--teal);  
+        }
+
+        .warning-box {  
+            background: #fff3cd;  
+            border-left: 4px solid var(--warning);  
+            padding: 15px 20px;  
+            border-radius: 0 10px 10px 0;  
+            margin: 15px 0;  
+        }
+
+        .danger-box {  
+            background: #f8d7da;  
+            border-left: 4px solid var(--danger);  
+            padding: 15px 20px;  
+            border-radius: 0 10px 10px 0;  
+            margin: 15px 0;  
+        }
+
+        /* Risk interpretation table */  
+        .risk-table {  
+            width: 100%;  
+            border-collapse: collapse;  
+            margin-top: 15px;  
+            font-size: 0.9rem;  
+        }
+
+        .risk-table th, .risk-table td {  
+            padding: 10px 12px;  
+            text-align: left;  
+            border: 1px solid #ddd;  
+        }
+
+        .risk-table th {  
+            background: var(--light);  
+            color: var(--dark);  
+            font-weight: 600;  
+        }
+
+        .risk-table tr:nth-child(even) {  
+            background: #f9f9f9;  
+        }
+
+        .highlight-row {  
+            background: #fff3cd !important;  
+            font-weight: 600;  
+        }
+
+        /* A&P Output */  
+        .ap-output {  
+            background: #1e1e1e;  
+            border: none;  
+            border-radius: 10px;  
+            padding: 25px;  
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;  
+            font-size: 0.9rem;  
+            line-height: 1.7;  
+            white-space: pre-wrap;  
+            max-height: 600px;  
+            overflow-y: auto;  
+            color: #d4d4d4;  
+        }
+
+        .output-container {  
+            position: relative;  
+        }
+
+        .copy-btn {  
+            position: absolute;  
+            top: 15px;  
+            right: 15px;  
+            padding: 10px 20px;  
+            background: var(--success);  
+            color: white;  
+            border: none;  
+            border-radius: 6px;  
+            cursor: pointer;  
+            font-size: 0.9rem;  
+            font-weight: 600;  
+            z-index: 10;  
+            transition: all 0.3s;  
+        }
+
+        .copy-btn:hover {  
+            background: #218838;  
+            transform: translateY(-2px);  
+        }
+
+        /* NSQIP Input Form */  
+        .nsqip-form {  
+            background: var(--light);  
+            padding: 20px;  
+            border-radius: 10px;  
+            margin-bottom: 20px;  
+        }
+
+        .nsqip-form .form-row {  
+            margin-bottom: 15px;  
+        }
+
+        .nsqip-form label {  
+            font-weight: 600;  
+            color: var(--dark);  
+        }
+
+        /* Print Styles */  
+        @media print {  
+            body {  
+                background: white;  
+                padding: 0;  
+            }
+
+            .tabs, .header-actions, .btn, .calc-tabs, .copy-btn {  
+                display: none !important;  
+            }
+
+            .card {  
+                box-shadow: none;  
+                border: 1px solid #ddd;  
+                break-inside: avoid;  
+            }
+
+            .ap-output {  
+                max-height: none;  
+                background: white;  
+                color: black;  
+                border: 1px solid #333;  
+            }  
+        }
+
+        /* Responsive */  
+        @media (max-width: 768px) {  
+            .tabs {  
+                justify-content: center;  
+            }
+
+            .tab {  
+                padding: 10px 16px;  
+                font-size: 0.9rem;  
+            }
+
+            .form-row {  
+                grid-template-columns: 1fr;  
+            }
+
+            .score-circle {  
+                width: 100px;  
+                height: 100px;  
+            }
+
+            .score-value {  
+                font-size: 2rem;  
+            }
+
+            .grid {  
+                grid-template-columns: 1fr;  
+            }  
+        }
+
+        /* Tooltip */  
+        .tooltip {  
+            position: relative;  
+            display: inline-block;  
+            cursor: help;  
+        }
+
+        .tooltip .tooltiptext {  
+            visibility: hidden;  
+            width: 280px;  
+            background-color: var(--dark);  
+            color: #fff;  
+            text-align: left;  
+            border-radius: 8px;  
+            padding: 12px;  
+            position: absolute;  
+            z-index: 100;  
+            bottom: 130%;  
+            left: 50%;  
+            margin-left: -140px;  
+            opacity: 0;  
+            transition: opacity 0.3s;  
+            font-size: 0.85rem;  
+            font-weight: normal;  
+            line-height: 1.4;  
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);  
+        }
+
+        .tooltip:hover .tooltiptext {  
+            visibility: visible;  
+            opacity: 1;  
+        }
+
+        /* Animation */  
+        @keyframes pulse {  
+            0%, 100% { transform: scale(1); }  
+            50% { transform: scale(1.03); }  
+        }
+
+        .pulse {  
+            animation: pulse 2s infinite;  
+        }
+
+        /* External link */  
+        .external-link {  
+            display: inline-flex;  
+            align-items: center;  
+            gap: 5px;  
+            color: var(--primary);  
+            text-decoration: none;  
+            font-weight: 600;  
+        }
+
+        .external-link:hover {  
+            text-decoration: underline;  
+        }
+
+        /* Disclaimer styling in output */  
+        .disclaimer-preview {  
+            background: #fff8e1;  
+            border: 1px solid #ffcc02;  
+            border-radius: 8px;  
+            padding: 12px 15px;  
+            margin-top: 15px;  
+            font-size: 0.9rem;  
+            color: #5d4e00;  
+        }
+
+        .disclaimer-preview strong {  
+            color: #8a7000;  
+        }  
+    </style>  
+</head>  
+<body>  
+    <div class="container">  
+        <!-- Header -->  
+        <header>  
+            <div class="logo">  
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">  
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>  
+                </svg>  
+                <div>  
+                    <h1>Cardiac PreOp Risk Calculator</h1>  
+                    <span>Perioperative Cardiovascular Risk Stratification</span>  
+                </div>  
+            </div>  
+            <div class="header-actions">  
+                <button class="btn btn-outline" onclick="resetAll()">🔄 Reset All</button>  
+                <button class="btn btn-success" onclick="generateAP()">📋 Generate A&P</button>  
+            </div>  
+        </header>
+
+        <!-- Main Tabs -->  
+        <div class="tabs">  
+            <button class="tab active" onclick="showTab('calculators')">🧮 Risk Calculators</button>  
+            <button class="tab" onclick="showTab('assessment')">📊 Assessment & A&P</button>  
+        </div>
+
+        <!-- Risk Calculators Tab -->  
+        <div id="calculators" class="tab-content active">  
+              
+            <!-- Quick Score Summary -->  
+            <div class="card">  
+                <div class="card-header">  
+                    <h2 class="card-title">📊 Risk Score Summary</h2>  
+                </div>  
+                <div class="score-comparison">  
+                    <div class="score-box rcri">  
+                        <h4>RCRI</h4>  
+                        <div class="big-score" id="summaryRCRI">0</div>  
+                        <div class="score-desc" id="summaryRCRIDesc">Very Low</div>  
+                    </div>  
+                    <div class="score-box aubhas">  
+                        <h4>AUB-HAS2</h4>  
+                        <div class="big-score" id="summaryAUBHAS">0</div>  
+                        <div class="score-desc" id="summaryAUBHASDesc">Low</div>  
+                    </div>  
+                    <div class="score-box nsqip">  
+                        <h4>NSQIP MICA</h4>  
+                        <div class="big-score" id="summaryNSQIP">-</div>  
+                        <div class="score-desc" id="summaryNSQIPDesc">Calculate →</div>  
+                    </div>  
+                    <div class="score-box mets">  
+                        <h4>Functional Capacity</h4>  
+                        <div class="big-score" id="summaryMETs">4</div>  
+                        <div class="score-desc" id="summaryMETsDesc">METs</div>  
+                    </div>  
+                </div>  
+            </div>
+
+            <!-- Calculator Selection Tabs -->  
+            <div class="card">  
+                <div class="calc-tabs">  
+                    <button class="calc-tab active" onclick="showCalc('rcri')">RCRI</button>  
+                    <button class="calc-tab" onclick="showCalc('aubhas')">AUB-HAS2</button>  
+                    <button class="calc-tab" onclick="showCalc('nsqip')">NSQIP MICA</button>  
+                    <button class="calc-tab" onclick="showCalc('mets')">Functional Capacity</button>  
+                </div>
+
+                <!-- RCRI Calculator -->  
+                <div id="calc-rcri" class="calc-content active">  
+                    <div class="grid">  
+                        <div>  
+                            <h4 style="margin-bottom: 15px; color: var(--primary); display: flex; align-items: center; gap: 10px;">  
+                                Revised Cardiac Risk Index (RCRI)  
+                                <span class="tooltip">ℹ️  
+                                    <span class="tooltiptext">The Lee Index. Predicts risk of major cardiac complications (MI, pulmonary edema, VF, cardiac arrest, complete heart block) within 30 days of non-cardiac surgery.</span>  
+                                </span>  
+                            </h4>  
+                              
+                            <div class="calc-item rcri-item" onclick="toggleCalcItem(this, 'rcri')">  
+                                <input type="checkbox" id="rcri1" onchange="calculateRCRI()">  
+                                <label for="rcri1">  
+                                    <strong>High-Risk Surgery</strong>  
+                                    <small>Intraperitoneal, intrathoracic, or suprainguinal vascular surgery</small>  
+                                </label>  
+                                <span class="points">1 pt</span>  
+                            </div>
+
+                            <div class="calc-item rcri-item" onclick="toggleCalcItem(this, 'rcri')">  
+                                <input type="checkbox" id="rcri2" onchange="calculateRCRI()">  
+                                <label for="rcri2">  
+                                    <strong>History of Ischemic Heart Disease</strong>  
+                                    <small>History of MI, positive stress test, current chest pain due to ischemia, use of nitrate therapy, or ECG with Q waves</small>  
+                                </label>  
+                                <span class="points">1 pt</span>  
+                            </div>
+
+                            <div class="calc-item rcri-item" onclick="toggleCalcItem(this, 'rcri')">  
+                                <input type="checkbox" id="rcri3" onchange="calculateRCRI()">  
+                                <label for="rcri3">  
+                                    <strong>History of Congestive Heart Failure</strong>  
+                                    <small>History of CHF, pulmonary edema, PND, bilateral rales or S3, or CXR showing pulmonary vascular redistribution</small>  
+                                </label>  
+                                <span class="points">1 pt</span>  
+                            </div>
+
+                            <div class="calc-item rcri-item" onclick="toggleCalcItem(this, 'rcri')">  
+                                <input type="checkbox" id="rcri4" onchange="calculateRCRI()">  
+                                <label for="rcri4">  
+                                    <strong>History of Cerebrovascular Disease</strong>  
+                                    <small>History of transient ischemic attack (TIA) or stroke</small>  
+                                </label>  
+                                <span class="points">1 pt</span>  
+                            </div>
+
+                            <div class="calc-item rcri-item" onclick="toggleCalcItem(this, 'rcri')">  
+                                <input type="checkbox" id="rcri5" onchange="calculateRCRI()">  
+                                <label for="rcri5">  
+                                    <strong>Preoperative Insulin Therapy</strong>  
+                                    <small>Diabetes mellitus requiring preoperative insulin use</small>  
+                                </label>  
+                                <span class="points">1 pt</span>  
+                            </div>
+
+                            <div class="calc-item rcri-item" onclick="toggleCalcItem(this, 'rcri')">  
+                                <input type="checkbox" id="rcri6" onchange="calculateRCRI()">  
+                                <label for="rcri6">  
+                                    <strong>Preoperative Creatinine >2 mg/dL</strong>  
+                                    <small>Serum creatinine >2.0 mg/dL (>177 μmol/L)</small>  
+                                </label>  
+                                <span class="points">1 pt</span>  
+                            </div>  
+                        </div>
+
+                        <div>  
+                            <div class="risk-calculator">  
+                                <h3 style="text-align: center; margin-bottom: 15px;">RCRI Score</h3>  
+                                <div class="risk-score">  
+                                    <div class="score-circle pulse">  
+                                        <span class="score-value" id="rcriScore">0</span>  
+                                        <span class="score-label">Points</span>  
+                                    </div>  
+                                    <div>  
+                                        <div class="risk-level risk-low" id="rcriRiskLevel">Very Low Risk</div>  
+                                        <p style="margin-top: 10px; text-align: center;" id="rcriRiskPercent">MACE Risk: 3.9%</p>  
+                                    </div>  
+                                </div>  
+                                <div class="risk-details">  
+                                    <p>30-day major adverse cardiac event risk:</p>  
+                                    <div class="risk-bar">  
+                                        <div class="risk-bar-fill" id="rcriBar" style="width: 10%; background: var(--success);"></div>  
+                                    </div>  
+                                </div>  
+                            </div>
+
+                            <div class="recommendation-box" id="rcriRecommendation">  
+                                <h4>💡 Interpretation</h4>  
+                                <p>RCRI 0: Very low risk (~3.9% MACE). No additional cardiac testing needed if adequate functional capacity (≥4 METs).</p>  
+                            </div>
+
+                            <table class="risk-table">  
+                                <thead>  
+                                    <tr><th>RCRI Score</th><th>Risk Class</th><th>MACE Risk</th></tr>  
+                                </thead>  
+                                <tbody id="rcriTable">  
+                                    <tr class="highlight-row"><td>0</td><td>I</td><td>3.9%</td></tr>  
+                                    <tr><td>1</td><td>II</td><td>6.0%</td></tr>  
+                                    <tr><td>2</td><td>III</td><td>10.1%</td></tr>  
+                                    <tr><td>≥3</td><td>IV</td><td>15%+</td></tr>  
+                                </tbody>  
+                            </table>  
+                        </div>  
+                    </div>  
+                </div>
+
+                <!-- AUB-HAS2 Calculator -->  
+                <div id="calc-aubhas" class="calc-content">  
+                    <div class="grid">  
+                        <div>  
+                            <h4 style="margin-bottom: 15px; color: var(--orange); display: flex; align-items: center; gap: 10px;">  
+                                AUB-HAS2 Cardiovascular Risk Index  
+                                <span class="tooltip">ℹ️  
+                                    <span class="tooltiptext">A 6-element perioperative cardiac risk stratification tool. Stratifies patients into low (0-1), intermediate (2-3), and high risk (>3) categories for major adverse cardiac events.</span>  
+                                </span>  
+                            </h4>  
+                              
+                            <div class="calc-item aubhas-item" onclick="toggleCalcItem(this, 'aubhas')">  
+                                <input type="checkbox" id="aubhas1" onchange="calculateAUBHAS()">  
+                                <label for="aubhas1">  
+                                    <strong>A - Age ≥75 years</strong>  
+                                    <small>Patient is 75 years of age or older</small>  
+                                </label>  
+                                <span class="points">1 pt</span>  
+                            </div>
+
+                            <div class="calc-item aubhas-item" onclick="toggleCalcItem(this, 'aubhas')">  
+                                <input type="checkbox" id="aubhas2" onchange="calculateAUBHAS()">  
+                                <label for="aubhas2">  
+                                    <strong>U - Underlying Heart Disease</strong>  
+                                    <small>History of coronary artery disease, heart failure, cardiomyopathy, or valvular heart disease</small>  
+                                </label>  
+                                <span class="points">1 pt</span>  
+                            </div>
+
+                            <div class="calc-item aubhas-item" onclick="toggleCalcItem(this, 'aubhas')">  
+                                <input type="checkbox" id="aubhas3" onchange="calculateAUBHAS()">  
+                                <label for="aubhas3">  
+                                    <strong>B - Breathlessness / Angina Symptoms</strong>  
+                                    <small>Current symptoms of angina or dyspnea on exertion</small>  
+                                </label>  
+                                <span class="points">1 pt</span>  
+                            </div>
+
+                            <div class="calc-item aubhas-item" onclick="toggleCalcItem(this, 'aubhas')">  
+                                <input type="checkbox" id="aubhas4" onchange="calculateAUBHAS()">  
+                                <label for="aubhas4">  
+                                    <strong>H - Hemoglobin <12 g/dL</strong>  
+                                    <small>Preoperative anemia with hemoglobin less than 12 g/dL</small>  
+                                </label>  
+                                <span class="points">1 pt</span>  
+                            </div>
+
+                            <div class="calc-item aubhas-item" onclick="toggleCalcItem(this, 'aubhas')">  
+                                <input type="checkbox" id="aubhas5" onchange="calculateAUBHAS()">  
+                                <label for="aubhas5">  
+                                    <strong>A - Arterial (Vascular) Surgery</strong>  
+                                    <small>Planned vascular surgical procedure</small>  
+                                </label>  
+                                <span class="points">1 pt</span>  
+                            </div>
+
+                            <div class="calc-item aubhas-item" onclick="toggleCalcItem(this, 'aubhas')">  
+                                <input type="checkbox" id="aubhas6" onchange="calculateAUBHAS()">  
+                                <label for="aubhas6">  
+                                    <strong>S2 - Surgery is Emergency</strong>  
+                                    <small>Emergent or urgent surgical procedure (not elective)</small>  
+                                </label>  
+                                <span class="points">2 pts</span>  
+                            </div>  
+                        </div>
+
+                        <div>  
+                            <div class="risk-calculator aubhas">  
+                                <h3 style="text-align: center; margin-bottom: 15px;">AUB-HAS2 Score</h3>  
+                                <div class="risk-score">  
+                                    <div class="score-circle pulse">  
+                                        <span class="score-value" id="aubhasScore">0</span>  
+                                        <span class="score-label">Points</span>  
+                                    </div>  
+                                    <div>  
+                                        <div class="risk-level risk-low" id="aubhasRiskLevel">Low Risk</div>  
+                                        <p style="margin-top: 10px; text-align: center;" id="aubhasRiskPercent">Score 0-1</p>  
+                                    </div>  
+                                </div>  
+                                <div class="risk-details">  
+                                    <p>Perioperative cardiovascular risk category:</p>  
+                                    <div class="risk-bar">  
+                                        <div class="risk-bar-fill" id="aubhasBar" style="width: 15%; background: var(--success);"></div>  
+                                    </div>  
+                                </div>  
+                            </div>
+
+                            <div class="recommendation-box orange" id="aubhasRecommendation">  
+                                <h4>💡 Interpretation</h4>  
+                                <p>AUB-HAS2 0-1: Low perioperative cardiovascular risk. Standard perioperative care appropriate.</p>  
+                            </div>
+
+                            <table class="risk-table">  
+                                <thead>  
+                                    <tr><th>AUB-HAS2 Score</th><th>Risk Category</th><th>Recommendation</th></tr>  
+                                </thead>  
+                                <tbody id="aubhasTable">  
+                                    <tr class="highlight-row"><td>0-1</td><td>Low</td><td>Standard perioperative care</td></tr>  
+                                    <tr><td>2-3</td><td>Intermediate</td><td>Consider optimization, closer monitoring</td></tr>  
+                                    <tr><td>≥4</td><td>High</td><td>Intensive monitoring, consider risk modification</td></tr>  
+                                </tbody>  
+                            </table>
+
+                            <div class="recommendation-box" style="margin-top: 15px;">  
+                                <h4>📋 AUB-HAS2 Components</h4>  
+                                <ul style="margin-left: 20px; margin-top: 8px; line-height: 1.6;">  
+                                    <li><strong>A</strong> - Age ≥75 years (1 pt)</li>  
+                                    <li><strong>U</strong> - Underlying heart disease (1 pt)</li>  
+                                    <li><strong>B</strong> - Breathlessness/angina symptoms (1 pt)</li>  
+                                    <li><strong>H</strong> - Hemoglobin <12 g/dL (1 pt)</li>  
+                                    <li><strong>A</strong> - Arterial (vascular) surgery (1 pt)</li>  
+                                    <li><strong>S2</strong> - Surgery is emergency (2 pts)</li>  
+                                </ul>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>
+
+                <!-- NSQIP MICA Calculator -->  
+                <div id="calc-nsqip" class="calc-content">  
+                    <div class="grid">  
+                        <div>  
+                            <h4 style="margin-bottom: 15px; color: var(--teal); display: flex; align-items: center; gap: 10px;">  
+                                NSQIP MICA Calculator  
+                                <span class="tooltip">ℹ️  
+                                    <span class="tooltiptext">The ACS NSQIP Surgical Risk Calculator predicts the chance of Myocardial Infarction or Cardiac Arrest (MICA) within 30 days of surgery based on procedure-specific and patient factors.</span>  
+                                </span>  
+                            </h4>
+
+                            <div class="nsqip-form">  
+                                <p style="margin-bottom: 15px; color: var(--gray);">  
+                                    The NSQIP MICA risk is calculated using the official ACS NSQIP Surgical Risk Calculator, which incorporates procedure-specific CPT codes and multiple patient variables.  
+                                </p>
+
+                                <div class="form-group">  
+                                    <label>ASA Physical Status</label>  
+                                    <select id="nsqipASA" onchange="updateNSQIPEstimate()">  
+                                        <option value="1">I - Normal healthy patient</option>  
+                                        <option value="2">II - Mild systemic disease</option>  
+                                        <option value="3" selected>III - Severe systemic disease</option>  
+                                        <option value="4">IV - Severe systemic disease, constant threat to life</option>  
+                                        <option value="5">V - Moribund, not expected to survive without surgery</option>  
+                                    </select>  
+                                </div>
+
+                                <div class="form-row">  
+                                    <div class="form-group">  
+                                        <label>Age (years)</label>  
+                                        <input type="number" id="nsqipAge" value="65" min="18" max="110" onchange="updateNSQIPEstimate()">  
+                                    </div>  
+                                    <div class="form-group">  
+                                        <label>Functional Status</label>  
+                                        <select id="nsqipFunc" onchange="updateNSQIPEstimate()">  
+                                            <option value="independent">Independent</option>  
+                                            <option value="partial">Partially Dependent</option>  
+                                            <option value="total">Totally Dependent</option>  
+                                        </select>  
+                                    </div>  
+                                </div>
+
+                                <div class="form-row">  
+                                    <div class="form-group">  
+                                        <label>Creatinine (mg/dL)</label>  
+                                        <input type="number" id="nsqipCr" value="1.0" step="0.1" min="0.1" max="15" onchange="updateNSQIPEstimate()">  
+                                    </div>  
+                                    <div class="form-group">  
+                                        <label>Surgery Type</label>  
+                                        <select id="nsqipSurgery" onchange="updateNSQIPEstimate()">  
+                                            <option value="low">Low Risk (superficial, minor)</option>  
+                                            <option value="intermediate" selected>Intermediate Risk (orthopedic, abdominal)</option>  
+                                            <option value="high">High Risk (vascular, cardiac, major)</option>  
+                                        </select>  
+                                    </div>  
+                                </div>
+
+                                <div class="checkbox-group" style="margin-top: 10px;">  
+                                    <label class="checkbox-item">  
+                                        <input type="checkbox" id="nsqipDM" onchange="updateNSQIPEstimate()">  
+                                        Diabetes (oral agents or insulin)  
+                                    </label>  
+                                    <label class="checkbox-item">  
+                                        <input type="checkbox" id="nsqipHTN" onchange="updateNSQIPEstimate()">  
+                                        Hypertension requiring medication  
+                                    </label>  
+                                    <label class="checkbox-item">  
+                                        <input type="checkbox" id="nsqipCHF" onchange="updateNSQIPEstimate()">  
+                                        History of CHF (within 30 days)  
+                                    </label>  
+                                    <label class="checkbox-item">  
+                                        <input type="checkbox" id="nsqipDyspnea" onchange="updateNSQIPEstimate()">  
+                                        Dyspnea at rest or with minimal exertion  
+                                    </label>  
+                                    <label class="checkbox-item">  
+                                        <input type="checkbox" id="nsqipSmoker" onchange="updateNSQIPEstimate()">  
+                                        Current smoker (within 1 year)  
+                                    </label>  
+                                    <label class="checkbox-item">  
+                                        <input type="checkbox" id="nsqipSteroid" onchange="updateNSQIPEstimate()">  
+                                        Chronic steroid use  
+                                    </label>  
+                                </div>  
+                            </div>
+
+                            <div class="warning-box">  
+                                <h4>⚠️ Important Note</h4>  
+                                <p>This provides an <strong>estimated</strong> MICA risk. For the most accurate calculation using CPT-specific data, use the official calculator:</p>  
+                                <p style="margin-top: 10px;">  
+                                    <a href="https://riskcalculator.facs.org/RiskCalculator/" target="_blank" class="external-link">  
+                                        🔗 ACS NSQIP Surgical Risk Calculator  
+                                    </a>  
+                                </p>  
+                            </div>  
+                        </div>
+
+                        <div>  
+                            <div class="risk-calculator nsqip">  
+                                <h3 style="text-align: center; margin-bottom: 15px;">Estimated MICA Risk</h3>  
+                                <div class="risk-score">  
+                                    <div class="score-circle pulse">  
+                                        <span class="score-value" id="nsqipScore">0.4</span>  
+                                        <span class="score-label">%</span>  
+                                    </div>  
+                                    <div>  
+                                        <div class="risk-level risk-low" id="nsqipRiskLevel">Low Risk</div>  
+                                        <p style="margin-top: 10px; text-align: center;" id="nsqipRiskDesc">30-day MI/Cardiac Arrest</p>  
+                                    </div>  
+                                </div>  
+                                <div class="risk-details">  
+                                    <p>Estimated risk of myocardial infarction or cardiac arrest:</p>  
+                                    <div class="risk-bar">  
+                                        <div class="risk-bar-fill" id="nsqipBar" style="width: 10%; background: var(--success);"></div>  
+                                    </div>  
+                                </div>  
+                            </div>
+
+                            <div class="recommendation-box teal" id="nsqipRecommendation">  
+                                <h4>💡 Interpretation</h4>  
+                                <p>Estimated MICA risk <1%: Low risk for perioperative myocardial infarction or cardiac arrest.</p>  
+                            </div>
+
+                            <table class="risk-table">  
+                                <thead>  
+                                    <tr><th>MICA Risk</th><th>Category</th><th>Considerations</th></tr>  
+                                </thead>  
+                                <tbody id="nsqipTable">  
+                                    <tr class="highlight-row"><td><1%</td><td>Low</td><td>Standard care</td></tr>  
+                                    <tr><td>1-5%</td><td>Intermediate</td><td>Optimize risk factors</td></tr>  
+                                    <tr><td>>5%</td><td>High</td><td>Consider risk modification strategies</td></tr>  
+                                </tbody>  
+                            </table>
+
+                            <div class="recommendation-box" style="margin-top: 15px;">  
+                                <h4>📋 NSQIP MICA Factors</h4>  
+                                <p style="margin-top: 8px; line-height: 1.6;">  
+                                    The NSQIP calculator uses 21 patient predictors including age, sex, functional status, ASA class,   
+                                    emergency status, steroid use, ascites, sepsis, ventilator dependence, cancer, diabetes,   
+                                    hypertension, CHF, dyspnea, smoker status, COPD, dialysis, acute renal failure, BMI,   
+                                    and procedure-specific risk (via CPT code).  
+                                </p>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>
+
+                <!-- Functional Capacity (METs) -->  
+                <div id="calc-mets" class="calc-content">  
+                    <div class="grid">  
+                        <div>  
+                            <h4 style="margin-bottom: 15px; color: #27ae60; display: flex; align-items: center; gap: 10px;">  
+                                Functional Capacity Assessment (METs)  
+                                <span class="tooltip">ℹ️  
+                                    <span class="tooltiptext">Metabolic equivalents (METs) quantify functional capacity. ≥4 METs (ability to climb a flight of stairs) indicates adequate capacity and is associated with lower perioperative cardiac risk.</span>  
+                                </span>  
+                            </h4>  
+                            <p style="margin-bottom: 20px; color: var(--gray); line-height: 1.5;">  
+                                Select the <strong>highest</strong> activity level the patient can perform <strong>without cardiac symptoms</strong> (chest pain, dyspnea):  
+                            </p>  
+                              
+                            <div style="display: flex; flex-direction: column; gap: 10px;">  
+                                <label class="checkbox-item" style="background: #ffebee; border-left: 4px solid var(--danger);">  
+                                    <input type="radio" name="mets" value="1" onchange="calculateMETs()">  
+                                    <div>  
+                                        <strong>1 MET</strong> - Eating, dressing, using toilet  
+                                    </div>  
+                                </label>  
+                                <label class="checkbox-item" style="background: #fff3e0; border-left: 4px solid var(--warning);">  
+                                    <input type="radio" name="mets" value="2" onchange="calculateMETs()">  
+                                    <div>  
+                                        <strong>2 METs</strong> - Walking indoors, light housework  
+                                    </div>  
+                                </label>  
+                                <label class="checkbox-item" style="background: #fff3e0; border-left: 4px solid var(--warning);">  
+                                    <input type="radio" name="mets" value="3" onchange="calculateMETs()">  
+                                    <div>  
+                                        <strong>3 METs</strong> - Walking 1-2 level blocks at 2-3 mph  
+                                    </div>  
+                                </label>  
+                                <label class="checkbox-item" style="background: #e8f5e9; border-left: 4px solid var(--success);">  
+                                    <input type="radio" name="mets" value="4" onchange="calculateMETs()" checked>  
+                                    <div>  
+                                        <strong>4 METs</strong> - Climbing a flight of stairs, walking uphill, heavy housework  
+                                    </div>  
+                                </label>  
+                                <label class="checkbox-item" style="background: #e8f5e9; border-left: 4px solid var(--success);">  
+                                    <input type="radio" name="mets" value="5" onchange="calculateMETs()">  
+                                    <div>  
+                                        <strong>5-6 METs</strong> - Walking briskly (4 mph), golfing, dancing, climbing 2+ flights  
+                                    </div>  
+                                </label>  
+                                <label class="checkbox-item" style="background: #e3f2fd; border-left: 4px solid var(--primary);">  
+                                    <input type="radio" name="mets" value="7" onchange="calculateMETs()">  
+                                    <div>  
+                                        <strong>7-8 METs</strong> - Jogging, climbing stairs quickly, singles tennis  
+                                    </div>  
+                                </label>  
+                                <label class="checkbox-item" style="background: #e3f2fd; border-left: 4px solid var(--primary);">  
+                                    <input type="radio" name="mets" value="10" onchange="calculateMETs()">  
+                                    <div>  
+                                        <strong>≥10 METs</strong> - Running, swimming laps, strenuous sports  
+                                    </div>  
+                                </label>  
+                                <label class="checkbox-item" style="background: #f5f5f5; border-left: 4px solid var(--gray);">  
+                                    <input type="radio" name="mets" value="0" onchange="calculateMETs()">  
+                                    <div>  
+                                        <strong>Unknown</strong> - Unable to assess functional capacity  
+                                    </div>  
+                                </label>  
+                            </div>  
+                        </div>
+
+                        <div>  
+                            <div class="risk-calculator mets-calc">  
+                                <h3 style="text-align: center; margin-bottom: 15px;">Functional Capacity</h3>  
+                                <div class="risk-score">  
+                                    <div class="score-circle pulse">  
+                                        <span class="score-value" id="metsValue">4</span>  
+                                        <span class="score-label">METs</span>  
+                                    </div>  
+                                    <div>  
+                                        <div class="risk-level risk-low" id="metsRiskLevel">Adequate</div>  
+                                        <p style="margin-top: 10px; text-align: center;" id="metsInterpretation">Can proceed to surgery</p>  
+                                    </div>  
+                                </div>  
+                            </div>
+
+                            <div class="recommendation-box" id="metsRecommendation">  
+                                <h4>💡 Clinical Significance</h4>  
+                                <p>≥4 METs: Adequate functional capacity. Patients can generally proceed to surgery without additional cardiac testing in the absence of active cardiac conditions.</p>  
+                            </div>
+
+                            <table class="risk-table">  
+                                <thead>  
+                                    <tr><th>METs</th><th>Functional Capacity</th><th>Perioperative Implications</th></tr>  
+                                </thead>  
+                                <tbody id="metsTable">  
+                                    <tr><td><4</td><td>Poor</td><td>Consider further risk stratification if elevated RCRI</td></tr>  
+                                    <tr class="highlight-row"><td>4-6</td><td>Moderate</td><td>Generally acceptable for surgery</td></tr>  
+                                    <tr><td>7-10</td><td>Good</td><td>Low perioperative risk</td></tr>  
+                                    <tr><td>>10</td><td>Excellent</td><td>Very low perioperative risk</td></tr>  
+                                </tbody>  
+                            </table>
+
+                            <div class="warning-box" style="margin-top: 15px;">  
+                                <h4>⚠️ When Functional Capacity is Unknown</h4>  
+                                <p>If unable to assess functional capacity, proceed based on clinical risk factors (RCRI) and surgery type. Consider stress testing only if it will change management.</p>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>  
+            </div>  
+        </div>
+
+        <!-- Assessment & A&P Tab -->  
+        <div id="assessment" class="tab-content">  
+            <div class="card">  
+                <div class="card-header">  
+                    <h2 class="card-title">📊 Perioperative Risk Assessment</h2>  
+                </div>
+
+                <div class="form-row">  
+                    <div class="form-group">  
+                        <label>Planned Procedure</label>  
+                        <input type="text" id="procedureName" placeholder="e.g., Right total knee arthroplasty">  
+                    </div>  
+                    <div class="form-group">  
+                        <label>Procedure Risk Category</label>  
+                        <select id="procedureRisk" onchange="updateSummary()">  
+                            <option value="low">Low Risk (<1% MACE)</option>  
+                            <option value="intermediate" selected>Intermediate Risk (1-5% MACE)</option>  
+                            <option value="high">High Risk (>5% MACE)</option>  
+                        </select>  
+                    </div>  
+                </div>
+
+                <div class="form-row">  
+                    <div class="form-group">  
+                        <label>Patient Cardiac Risk</label>  
+                        <select id="patientRisk" onchange="updateSummary()">  
+                            <option value="low" selected>Low Risk</option>  
+                            <option value="intermediate">Intermediate Risk</option>  
+                            <option value="high">High Risk</option>  
+                        </select>  
+                    </div>  
+                    <div class="form-group">  
+                        <label>Functional Capacity</label>  
+                        <select id="funcCapacity" onchange="updateSummary()">  
+                            <option value="greater4" selected>≥4 METs (Adequate)</option>  
+                            <option value="less4"><4 METs (Poor)</option>  
+                            <option value="unknown">Unknown / Unable to assess</option>  
+                        </select>  
+                    </div>  
+                </div>
+
+                <!-- Score Summary -->  
+                <div class="score-comparison">  
+                    <div class="score-box rcri">  
+                        <h4>RCRI</h4>  
+                        <div class="big-score" id="apRCRI">0</div>  
+                        <div class="score-desc" id="apRCRIDesc">Very Low</div>  
+                    </div>  
+                    <div class="score-box aubhas">  
+                        <h4>AUB-HAS2</h4>  
+                        <div class="big-score" id="apAUBHAS">0</div>  
+                        <div class="score-desc" id="apAUBHASDesc">Low</div>  
+                    </div>  
+                    <div class="score-box nsqip">  
+                        <h4>NSQIP MICA</h4>  
+                        <div class="big-score" id="apNSQIP">-</div>  
+                        <div class="score-desc" id="apNSQIPDesc">%</div>  
+                    </div>  
+                    <div class="score-box mets">  
+                        <h4>Functional</h4>  
+                        <div class="big-score" id="apMETs">4</div>  
+                        <div class="score-desc">METs</div>  
+                    </div>  
+                </div>  
+            </div>
+
+            <div class="card">  
+                <div class="card-header">  
+                    <h2 class="card-title">📝 Clinical Findings</h2>  
+                </div>
+
+                <div class="form-group">  
+                    <label>Active Cardiac Conditions (select all that apply)</label>  
+                    <div class="checkbox-group">  
+                        <label class="checkbox-item">  
+                            <input type="checkbox" id="acs" onchange="updateSummary()">  
+                            Unstable angina / Recent ACS  
+                        </label>  
+                        <label class="checkbox-item">  
+                            <input type="checkbox" id="decompHF" onchange="updateSummary()">  
+                            Decompensated heart failure  
+                        </label>  
+                        <label class="checkbox-item">  
+                            <input type="checkbox" id="severeAS" onchange="updateSummary()">  
+                            Severe aortic stenosis (symptomatic)  
+                        </label>  
+                        <label class="checkbox-item">  
+                            <input type="checkbox" id="sigArrhythmia" onchange="updateSummary()">  
+                            Significant arrhythmia (high-grade AVB, symptomatic VT)  
+                        </label>  
+                        <label class="checkbox-item">  
+                            <input type="checkbox" id="recentPCI" onchange="updateSummary()">  
+                            Recent PCI/stent (<12 months)  
+                        </label>  
+                        <label class="checkbox-item">  
+                            <input type="checkbox" id="recentMI" onchange="updateSummary()">  
+                            Recent MI (<60 days)  
+                        </label>  
+                    </div>  
+                </div>
+
+                <div class="form-row">  
+                    <div class="form-group">  
+                        <label>Anticoagulation / Antiplatelet Status</label>  
+                        <select id="anticoagStatus">  
+                            <option value="none">Not on anticoagulation</option>  
+                            <option value="aspirin">Aspirin only</option>  
+                            <option value="dapt">DAPT (Aspirin + P2Y12 inhibitor)</option>  
+                            <option value="warfarin">Warfarin</option>  
+                            <option value="doac">DOAC (apixaban, rivaroxaban, etc.)</option>  
+                        </select>  
+                    </div>  
+                    <div class="form-group">  
+                        <label>Beta-Blocker Status</label>  
+                        <select id="betaBlocker">  
+                            <option value="none">Not on beta-blocker</option>  
+                            <option value="current">Currently on beta-blocker</option>  
+                        </select>  
+                    </div>  
+                </div>
+
+                <div class="form-group">  
+                    <label>Additional Comments (will be included in A&P)</label>  
+                    <textarea id="additionalComments" rows="3" placeholder="e.g., LVEF 55% on recent echo, no significant valvular disease..."></textarea>  
+                </div>
+
+                <!-- Disclaimer Preview -->  
+                <div class="disclaimer-preview">  
+                    <strong>📌 Note:</strong> The following statement will be automatically included in the generated A&P:<br><br>  
+                    <em>"This consult serves only as a perioperative cardiac risk stratification and evaluation to predict 30-day cardiac complications risk and mortality. The decision to proceed with the surgery/procedure is made by the performing physician and the patient."</em>  
+                </div>  
+            </div>
+
+            <div class="card">  
+                <div class="card-header">  
+                    <h2 class="card-title">📋 Generated A&P for Epic</h2>  
+                    <button class="btn btn-success" onclick="generateAP()">🔄 Generate A&P</button>  
+                </div>
+
+                <div class="output-container">  
+                    <button class="copy-btn" onclick="copyAP()">📋 Copy to Clipboard</button>  
+                    <div class="ap-output" id="apOutput">Click "Generate A&P" to create the assessment and plan text.
+
+This will include:  
+• Risk score summary (RCRI, AUB-HAS2, NSQIP MICA estimate)  
+• Patient and procedure risk stratification  
+• Functional capacity assessment  
+• Active cardiac conditions  
+• Perioperative recommendations  
+• Disclaimer statement</div>  
+                </div>  
+            </div>  
+        </div>  
+    </div>
+
+    <script>  
+        // ===================== TAB NAVIGATION =====================  
+        function showTab(tabId) {  
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));  
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));  
+            document.getElementById(tabId).classList.add('active');  
+            event.target.classList.add('active');  
+            if (tabId === 'assessment') updateSummary();  
+        }
+
+        function showCalc(calcId) {  
+            document.querySelectorAll('.calc-content').forEach(c => c.classList.remove('active'));  
+            document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));  
+            document.getElementById('calc-' + calcId).classList.add('active');  
+            event.target.classList.add('active');  
+        }
+
+        // ===================== TOGGLE CALCULATOR ITEMS =====================  
+        function toggleCalcItem(element, type) {  
+            const checkbox = element.querySelector('input[type="checkbox"]');  
+            checkbox.checked = !checkbox.checked;  
+            element.classList.toggle('selected', checkbox.checked);  
+              
+            switch(type) {  
+                case 'rcri': calculateRCRI(); break;  
+                case 'aubhas': calculateAUBHAS(); break;  
+            }  
+        }
+
+        // ===================== RCRI CALCULATOR =====================  
+        function calculateRCRI() {  
+            let score = 0;  
+            for (let i = 1; i <= 6; i++) {  
+                const cb = document.getElementById('rcri' + i);  
+                if (cb.checked) {  
+                    score++;  
+                    cb.closest('.calc-item').classList.add('selected');  
+                } else {  
+                    cb.closest('.calc-item').classList.remove('selected');  
+                }  
+            }  
+              
+            document.getElementById('rcriScore').textContent = score;  
+            document.getElementById('summaryRCRI').textContent = score;  
+              
+            // Table highlighting  
+            document.querySelectorAll('#rcriTable tr').forEach((row, i) => {  
+                row.classList.remove('highlight-row');  
+                if ((score === 0 && i === 0) || (score === 1 && i === 1) ||   
+                    (score === 2 && i === 2) || (score >= 3 && i === 3)) {  
+                    row.classList.add('highlight-row');  
+                }  
+            });  
+              
+            let riskLevel, riskPercent, riskClass, barWidth, barColor, recommendation, desc;  
+              
+            if (score === 0) {  
+                riskLevel = 'Very Low Risk'; riskPercent = '3.9%'; riskClass = 'risk-low';  
+                barWidth = '10%'; barColor = 'var(--success)'; desc = 'Very Low';  
+                recommendation = 'RCRI 0: Very low risk (~3.9% MACE). No additional cardiac testing needed if adequate functional capacity (≥4 METs).';  
+            } else if (score === 1) {  
+                riskLevel = 'Low Risk'; riskPercent = '6.0%'; riskClass = 'risk-low';  
+                barWidth = '18%'; barColor = 'var(--success)'; desc = 'Low';  
+                recommendation = 'RCRI 1: Low risk (~6.0% MACE). Proceed if functional capacity ≥4 METs. Consider risk factor optimization.';  
+            } else if (score === 2) {  
+                riskLevel = 'Intermediate Risk'; riskPercent = '10.1%'; riskClass = 'risk-moderate';  
+                barWidth = '35%'; barColor = 'var(--warning)'; desc = 'Intermediate';  
+                recommendation = 'RCRI 2: Intermediate risk (~10.1% MACE). If poor functional capacity, consider pharmacologic stress testing if it would change management.';  
+            } else {  
+                riskLevel = 'High Risk'; riskPercent = '15%+'; riskClass = 'risk-high';  
+                barWidth = '55%'; barColor = 'var(--danger)'; desc = 'High';  
+                recommendation = 'RCRI ≥3: High risk (~15%+ MACE). Consider cardiology consultation, stress testing, and aggressive perioperative optimization.';  
+            }  
+              
+            document.getElementById('rcriRiskLevel').textContent = riskLevel;  
+            document.getElementById('rcriRiskLevel').className = 'risk-level ' + riskClass;  
+            document.getElementById('rcriRiskPercent').textContent = 'MACE Risk: ' + riskPercent;  
+            document.getElementById('rcriBar').style.width = barWidth;  
+            document.getElementById('rcriBar').style.background = barColor;  
+            document.getElementById('rcriRecommendation').innerHTML = '<h4>💡 Interpretation</h4><p>' + recommendation + '</p>';  
+            document.getElementById('summaryRCRIDesc').textContent = desc;  
+              
+            updateSummary();  
+        }
+
+        // ===================== AUB-HAS2 CALCULATOR =====================  
+        function calculateAUBHAS() {  
+            let score = 0;  
+            const points = [1, 1, 1, 1, 1, 2]; // S2 (emergency) = 2 points  
+              
+            for (let i = 1; i <= 6; i++) {  
+                const cb = document.getElementById('aubhas' + i);  
+                if (cb.checked) {  
+                    score += points[i - 1];  
+                    cb.closest('.calc-item').classList.add('selected');  
+                } else {  
+                    cb.closest('.calc-item').classList.remove('selected');  
+                }  
+            }  
+              
+            document.getElementById('aubhasScore').textContent = score;  
+            document.getElementById('summaryAUBHAS').textContent = score;  
+              
+            // Table highlighting  
+            document.querySelectorAll('#aubhasTable tr').forEach((row, i) => {  
+                row.classList.remove('highlight-row');  
+                if ((score <= 1 && i === 0) || (score >= 2 && score <= 3 && i === 1) || (score >= 4 && i === 2)) {  
+                    row.classList.add('highlight-row');  
+                }  
+            });  
+              
+            let riskLevel, riskClass, barWidth, barColor, recommendation, desc, riskPercent;  
+              
+            if (score <= 1) {  
+                riskLevel = 'Low Risk'; riskClass = 'risk-low';  
+                barWidth = '15%'; barColor = 'var(--success)'; desc = 'Low';  
+                riskPercent = 'Score 0-1';  
+                recommendation = 'AUB-HAS2 0-1: Low perioperative cardiovascular risk. Standard perioperative care is appropriate.';  
+            } else if (score <= 3) {  
+                riskLevel = 'Intermediate Risk'; riskClass = 'risk-moderate';  
+                barWidth = '45%'; barColor = 'var(--warning)'; desc = 'Intermediate';  
+                riskPercent = 'Score 2-3';  
+                recommendation = 'AUB-HAS2 2-3: Intermediate perioperative cardiovascular risk. Consider preoperative optimization, closer intraoperative and postoperative monitoring.';  
+            } else {  
+                riskLevel = 'High Risk'; riskClass = 'risk-high';  
+                barWidth = '75%'; barColor = 'var(--danger)'; desc = 'High';  
+                riskPercent = 'Score ≥4';  
+                recommendation = 'AUB-HAS2 ≥4: High perioperative cardiovascular risk. Recommend intensive monitoring, aggressive risk factor modification, and consideration of ICU-level postoperative care.';  
+            }  
+              
+            document.getElementById('aubhasRiskLevel').textContent = riskLevel;  
+            document.getElementById('aubhasRiskLevel').className = 'risk-level ' + riskClass;  
+            document.getElementById('aubhasRiskPercent').textContent = riskPercent;  
+            document.getElementById('aubhasBar').style.width = barWidth;  
+            document.getElementById('aubhasBar').style.background = barColor;  
+            document.getElementById('aubhasRecommendation').innerHTML = '<h4>💡 Interpretation</h4><p>' + recommendation + '</p>';  
+            document.getElementById('summaryAUBHASDesc').textContent = desc;  
+              
+            updateSummary();  
+        }
+
+        // ===================== NSQIP MICA ESTIMATE =====================  
+        function updateNSQIPEstimate() {  
+            const asa = parseInt(document.getElementById('nsqipASA').value);  
+            const age = parseInt(document.getElementById('nsqipAge').value) || 65;  
+            const func = document.getElementById('nsqipFunc').value;  
+            const cr = parseFloat(document.getElementById('nsqipCr').value) || 1.0;  
+            const surgeryType = document.getElementById('nsqipSurgery').value;  
+              
+            const dm = document.getElementById('nsqipDM').checked;  
+            const htn = document.getElementById('nsqipHTN').checked;  
+            const chf = document.getElementById('nsqipCHF').checked;  
+            const dyspnea = document.getElementById('nsqipDyspnea').checked;  
+            const smoker = document.getElementById('nsqipSmoker').checked;  
+            const steroid = document.getElementById('nsqipSteroid').checked;  
+              
+            // Simplified MICA estimation  
+            let risk = 0.2;  
+              
+            if (asa === 2) risk += 0.1;  
+            else if (asa === 3) risk += 0.4;  
+            else if (asa === 4) risk += 1.5;  
+            else if (asa === 5) risk += 4.0;  
+              
+            if (age >= 65) risk += 0.2;  
+            if (age >= 75) risk += 0.3;  
+            if (age >= 85) risk += 0.5;  
+              
+            if (func === 'partial') risk += 0.3;  
+            else if (func === 'total') risk += 0.8;  
+              
+            if (cr > 1.5) risk += 0.3;  
+            if (cr > 2.0) risk += 0.5;  
+              
+            if (surgeryType === 'intermediate') risk += 0.3;  
+            else if (surgeryType === 'high') risk += 1.2;  
+              
+            if (dm) risk += 0.2;  
+            if (htn) risk += 0.1;  
+            if (chf) risk += 0.8;  
+            if (dyspnea) risk += 0.5;  
+            if (smoker) risk += 0.1;  
+            if (steroid) risk += 0.2;  
+              
+            risk = Math.max(0.1, Math.min(risk, 15)).toFixed(1);  
+              
+            document.getElementById('nsqipScore').textContent = risk;  
+            document.getElementById('summaryNSQIP').textContent = risk;  
+            document.getElementById('summaryNSQIPDesc').textContent = '%';  
+              
+            let riskLevel, riskClass, barWidth, barColor, recommendation;  
+              
+            if (risk < 1) {  
+                riskLevel = 'Low Risk'; riskClass = 'risk-low';  
+                barWidth = '10%'; barColor = 'var(--success)';  
+                recommendation = 'Estimated MICA risk <1%: Low risk for perioperative MI or cardiac arrest. Standard perioperative care appropriate.';  
+                document.querySelectorAll('#nsqipTable tr').forEach((r,i) => {  
+                    r.classList.toggle('highlight-row', i === 0);  
+                });  
+            } else if (risk <= 5) {  
+                riskLevel = 'Intermediate Risk'; riskClass = 'risk-moderate';  
+                barWidth = '40%'; barColor = 'var(--warning)';  
+                recommendation = 'Estimated MICA risk 1-5%: Intermediate risk. Optimize modifiable risk factors. Consider closer postoperative monitoring.';  
+                document.querySelectorAll('#nsqipTable tr').forEach((r,i) => {  
+                    r.classList.toggle('highlight-row', i === 1);  
+                });  
+            } else {  
+                riskLevel = 'High Risk'; riskClass = 'risk-high';  
+                barWidth = '70%'; barColor = 'var(--danger)';  
+                recommendation = 'Estimated MICA risk >5%: High risk. Consider cardiology consultation, aggressive optimization, and enhanced postoperative monitoring.';  
+                document.querySelectorAll('#nsqipTable tr').forEach((r,i) => {  
+                    r.classList.toggle('highlight-row', i === 2);  
+                });  
+            }  
+              
+            document.getElementById('nsqipRiskLevel').textContent = riskLevel;  
+            document.getElementById('nsqipRiskLevel').className = 'risk-level ' + riskClass;  
+            document.getElementById('nsqipBar').style.width = barWidth;  
+            document.getElementById('nsqipBar').style.background = barColor;  
+            document.getElementById('nsqipRecommendation').innerHTML = '<h4>💡 Interpretation</h4><p>' + recommendation + '</p>';  
+              
+            updateSummary();  
+        }
+
+        // ===================== METS CALCULATOR =====================  
+        function calculateMETs() {  
+            const metsRadios = document.getElementsByName('mets');  
+            let metsVal = 4;  
+              
+            for (const radio of metsRadios) {  
+                if (radio.checked) {  
+                    metsVal = parseInt(radio.value);  
+                    break;  
+                }  
+            }  
+              
+            document.getElementById('metsValue').textContent = metsVal === 0 ? '?' : metsVal;  
+            document.getElementById('summaryMETs').textContent = metsVal === 0 ? '?' : metsVal;  
+              
+            let riskLevel, riskClass, interpretation, recommendation;  
+              
+            if (metsVal === 0) {  
+                riskLevel = 'Unknown';  
+                riskClass = 'risk-moderate';  
+                interpretation = 'Unable to assess';  
+                recommendation = 'Functional capacity unknown: Proceed based on clinical risk factors. If elevated RCRI and intermediate/high-risk surgery, consider pharmacologic stress testing if it would change management.';  
+                document.getElementById('funcCapacity').value = 'unknown';  
+            } else if (metsVal < 4) {  
+                riskLevel = 'Poor';  
+                riskClass = 'risk-high';  
+                interpretation = 'Consider further evaluation';  
+                recommendation = '<4 METs: Poor functional capacity. If RCRI ≥1 and intermediate/high-risk surgery, consider pharmacologic stress testing. Optimize medical therapy.';  
+                document.getElementById('funcCapacity').value = 'less4';  
+            } else if (metsVal < 7) {  
+                riskLevel = 'Moderate';  
+                riskClass = 'risk-low';  
+                interpretation = 'Adequate for surgery';  
+                recommendation = '4-6 METs: Moderate/adequate functional capacity. Generally acceptable for surgery. Additional cardiac testing unlikely to change management.';  
+                document.getElementById('funcCapacity').value = 'greater4';  
+            } else if (metsVal < 10) {  
+                riskLevel = 'Good';  
+                riskClass = 'risk-low';  
+                interpretation = 'Low perioperative risk';  
+                recommendation = '7-9 METs: Good functional capacity. Low perioperative cardiac risk. Proceed with surgery.';  
+                document.getElementById('funcCapacity').value = 'greater4';  
+            } else {  
+                riskLevel = 'Excellent';  
+                riskClass = 'risk-low';  
+                interpretation = 'Very low risk';  
+                recommendation = '≥10 METs: Excellent functional capacity. Very low perioperative cardiac risk.';  
+                document.getElementById('funcCapacity').value = 'greater4';  
+            }  
+              
+            document.getElementById('metsRiskLevel').textContent = riskLevel;  
+            document.getElementById('metsRiskLevel').className = 'risk-level ' + riskClass;  
+            document.getElementById('metsInterpretation').textContent = interpretation;  
+            document.getElementById('metsRecommendation').innerHTML = '<h4>💡 Clinical Significance</h4><p>' + recommendation + '</p>';  
+              
+            document.querySelectorAll('#metsTable tr').forEach((row, i) => {  
+                row.classList.remove('highlight-row');  
+                if ((metsVal > 0 && metsVal < 4 && i === 0) ||   
+                    (metsVal >= 4 && metsVal < 7 && i === 1) ||  
+                    (metsVal >= 7 && metsVal < 10 && i === 2) ||   
+                    (metsVal >= 10 && i === 3)) {  
+                    row.classList.add('highlight-row');  
+                }  
+            });  
+              
+            document.getElementById('summaryMETsDesc').textContent = metsVal === 0 ? 'Unknown' : 'METs';  
+              
+            updateSummary();  
+        }
+
+        // ===================== UPDATE SUMMARY =====================  
+        function updateSummary() {  
+            document.getElementById('apRCRI').textContent = document.getElementById('rcriScore').textContent;  
+            document.getElementById('apAUBHAS').textContent = document.getElementById('aubhasScore').textContent;  
+            document.getElementById('apNSQIP').textContent = document.getElementById('nsqipScore').textContent;  
+            document.getElementById('apMETs').textContent = document.getElementById('metsValue').textContent;  
+              
+            document.getElementById('apRCRIDesc').textContent = document.getElementById('summaryRCRIDesc').textContent;  
+            document.getElementById('apAUBHASDesc').textContent = document.getElementById('summaryAUBHASDesc').textContent;  
+            document.getElementById('apNSQIPDesc').textContent = '%';  
+        }
+
+        // ===================== GENERATE A&P =====================  
+        function generateAP() {  
+            const procedure = document.getElementById('procedureName').value || '[Procedure not specified]';  
+            const procedureRisk = document.getElementById('procedureRisk').value;  
+            const patientRisk = document.getElementById('patientRisk').value;  
+            const funcCapacity = document.getElementById('funcCapacity').value;  
+            const anticoagStatus = document.getElementById('anticoagStatus').value;  
+            const betaBlocker = document.getElementById('betaBlocker').value;  
+            const additionalComments = document.getElementById('additionalComments').value.trim();  
+              
+            const rcriScore = document.getElementById('rcriScore').textContent;  
+            const aubhasScore = document.getElementById('aubhasScore').textContent;  
+            const nsqipScore = document.getElementById('nsqipScore').textContent;  
+            const metsValue = document.getElementById('metsValue').textContent;  
+              
+            // Active conditions  
+            const hasACS = document.getElementById('acs').checked;  
+            const hasDecompHF = document.getElementById('decompHF').checked;  
+            const hasSevereAS = document.getElementById('severeAS').checked;  
+            const hasArrhythmia = document.getElementById('sigArrhythmia').checked;  
+            const hasRecentPCI = document.getElementById('recentPCI').checked;  
+            const hasRecentMI = document.getElementById('recentMI').checked;  
+              
+            const riskLabels = { low: 'Low', intermediate: 'Intermediate', high: 'High' };  
+            const funcLabels = { greater4: '≥4 METs (adequate)', less4: '<4 METs (poor)', unknown: 'Unknown' };  
+              
+            // Build A&P  
+            let ap = `PERIOPERATIVE CARDIOVASCULAR RISK ASSESSMENT
+
+PROCEDURE: ${procedure}  
+Procedure Risk: ${riskLabels[procedureRisk]}  
+Patient Cardiac Risk: ${riskLabels[patientRisk]}  
+Functional Capacity: ${funcLabels[funcCapacity]}
+
+RISK SCORES:  
+• RCRI: ${rcriScore}/6`;  
+              
+            if (rcriScore == 0) ap += ` (Very low risk, ~3.9% MACE)`;  
+            else if (rcriScore == 1) ap += ` (Low risk, ~6.0% MACE)`;  
+            else if (rcriScore == 2) ap += ` (Intermediate risk, ~10.1% MACE)`;  
+            else ap += ` (High risk, ~15%+ MACE)`;  
+              
+            ap += `  
+• AUB-HAS2: ${aubhasScore}/7`;  
+              
+            if (aubhasScore <= 1) ap += ` (Low risk)`;  
+            else if (aubhasScore <= 3) ap += ` (Intermediate risk)`;  
+            else ap += ` (High risk)`;  
+              
+            ap += `  
+• NSQIP MICA (estimated): ${nsqipScore}%`;  
+              
+            if (nsqipScore < 1) ap += ` (Low risk)`;  
+            else if (nsqipScore <= 5) ap += ` (Intermediate risk)`;  
+            else ap += ` (High risk)`;  
+              
+            ap += `  
+• Functional Capacity: ${metsValue === '?' ? 'Unknown' : metsValue + ' METs'}`;  
+              
+            // Active cardiac conditions  
+            let activeConditions = [];  
+            if (hasACS) activeConditions.push('Unstable angina/recent ACS');  
+            if (hasDecompHF) activeConditions.push('Decompensated heart failure');  
+            if (hasSevereAS) activeConditions.push('Severe symptomatic aortic stenosis');  
+            if (hasArrhythmia) activeConditions.push('Significant arrhythmia');  
+            if (hasRecentPCI) activeConditions.push('Recent PCI/stent (<12 months)');  
+            if (hasRecentMI) activeConditions.push('Recent MI (<60 days)');  
+              
+            if (activeConditions.length > 0) {  
+                ap += `
+
+ACTIVE CARDIAC CONDITIONS:  
+${activeConditions.map(c => '• ' + c).join('\n')}`;  
+            }  
+              
+            // Additional comments  
+            if (additionalComments) {  
+                ap += `
+
+CLINICAL NOTES:  
+${additionalComments}`;  
+            }  
+              
+            ap += `
+
+ASSESSMENT:  
+`;  
+              
+            if (hasACS || hasDecompHF || hasSevereAS || hasRecentMI) {  
+                ap += `Active cardiac condition(s) identified which confer elevated perioperative risk. `;  
+            }  
+              
+            ap += `Patient is at ${riskLabels[patientRisk].toLowerCase()} cardiac risk undergoing ${riskLabels[procedureRisk].toLowerCase()}-risk surgery. `;  
+              
+            if (funcCapacity === 'greater4') {  
+                ap += `Functional capacity is adequate (${metsValue} METs).`;  
+            } else if (funcCapacity === 'less4') {  
+                ap += `Functional capacity is poor (<4 METs), associated with increased perioperative risk.`;  
+            } else {  
+                ap += `Functional capacity is unknown.`;  
+            }
+
+            ap += `
+
+RECOMMENDATIONS:`;  
+              
+            let recNum = 1;  
+              
+            // Active condition recommendations  
+            if (hasACS || hasRecentMI) {  
+                ap += `\n${recNum++}. Defer elective surgery pending evaluation and stabilization of acute coronary syndrome. If surgery is urgent/emergent, proceed with intensive monitoring.`;  
+            }  
+            if (hasDecompHF) {  
+                ap += `\n${recNum++}. Optimize heart failure prior to elective surgery. Ensure euvolemic status. If surgery urgent, proceed with close hemodynamic monitoring.`;  
+            }  
+            if (hasSevereAS) {  
+                ap += `\n${recNum++}. Severe symptomatic aortic stenosis significantly increases perioperative risk. Consider valve intervention prior to elective non-cardiac surgery if appropriate candidate.`;  
+            }  
+              
+            // Risk-based recommendations  
+            if (!hasACS && !hasDecompHF && !hasSevereAS && !hasRecentMI) {  
+                if (patientRisk === 'low' && funcCapacity === 'greater4') {  
+                    ap += `\n${recNum++}. No additional preoperative cardiac testing indicated based on low clinical risk and adequate functional capacity.`;  
+                } else if (funcCapacity === 'less4' && (parseInt(rcriScore) >= 1 || patientRisk !== 'low')) {  
+                    ap += `\n${recNum++}. Given poor functional capacity with elevated clinical risk factors, consider pharmacologic stress testing if results would change perioperative management.`;  
+                } else if (funcCapacity === 'unknown' && patientRisk !== 'low') {  
+                    ap += `\n${recNum++}. Functional capacity unknown. If unable to determine exercise tolerance, consider pharmacologic stress testing for elevated-risk patients if it would change management.`;  
+                }  
+                  
+                if (patientRisk === 'low' || (patientRisk === 'intermediate' && funcCapacity === 'greater4')) {  
+                    ap += `\n${recNum++}. From a cardiovascular standpoint, patient may proceed to surgery with standard perioperative care.`;  
+                }  
+            }  
+              
+            // Beta-blocker  
+            if (betaBlocker === 'current') {  
+                ap += `\n${recNum++}. Continue current beta-blocker therapy perioperatively. Avoid abrupt discontinuation.`;  
+            } else if (parseInt(rcriScore) >= 3 || patientRisk === 'high') {  
+                ap += `\n${recNum++}. Consider beta-blocker initiation with careful titration if high-risk patient not already on beta-blocker. Avoid starting high-dose beta-blocker on day of surgery.`;  
+            }  
+              
+            // Statin  
+            ap += `\n${recNum++}. Continue statin therapy perioperatively if currently taking.`;  
+              
+            // Anticoagulation  
+            if (anticoagStatus === 'dapt') {  
+                if (hasRecentPCI) {  
+                    ap += `\n${recNum++}. Patient on DAPT with recent PCI. Coordinate antiplatelet management with interventional cardiology and surgical team. Avoid premature discontinuation of P2Y12 inhibitor.`;  
+                } else {  
+                    ap += `\n${recNum++}. Continue aspirin perioperatively if possible. Coordinate P2Y12 inhibitor management with surgical team based on bleeding risk.`;  
+                }  
+            } else if (anticoagStatus === 'warfarin') {  
+                ap += `\n${recNum++}. Coordinate warfarin management with surgical team. Determine need for bridging based on thrombotic risk.`;  
+            } else if (anticoagStatus === 'doac') {  
+                ap += `\n${recNum++}. Hold DOAC preoperatively per surgical team guidance (timing based on agent, renal function, and procedure bleeding risk).`;  
+            } else if (anticoagStatus === 'aspirin') {  
+                ap += `\n${recNum++}. Continue aspirin perioperatively if possible and bleeding risk acceptable.`;  
+            }  
+              
+            // Recent PCI specific  
+            if (hasRecentPCI && anticoagStatus !== 'dapt') {  
+                ap += `\n${recNum++}. Recent PCI noted. Confirm current antiplatelet regimen and timing since stent placement. Coordinate with interventional cardiology.`;  
+            }
+
+            // Add the disclaimer statement  
+            ap += `
+
+---  
+This consult serves only as a perioperative cardiac risk stratification and evaluation to predict 30-day cardiac complications risk and mortality. The decision to proceed with the surgery/procedure is made by the performing physician and the patient.
+
+---  
+Risk Scores: RCRI ${rcriScore} | AUB-HAS2 ${aubhasScore} | NSQIP MICA ~${nsqipScore}% | ${metsValue === '?' ? 'METs Unknown' : metsValue + ' METs'}`;
+
+            document.getElementById('apOutput').textContent = ap;  
+        }
+
+        // ===================== COPY TO CLIPBOARD =====================  
+        function copyAP() {  
+            const apText = document.getElementById('apOutput').textContent;  
+            navigator.clipboard.writeText(apText).then(() => {  
+                const btn = document.querySelector('.copy-btn');  
+                const originalText = btn.textContent;  
+                btn.textContent = '✓ Copied!';  
+                btn.style.background = '#218838';  
+                setTimeout(() => {  
+                    btn.textContent = originalText;  
+                    btn.style.background = 'var(--success)';  
+                }, 2000);  
+            }).catch(() => {  
+                const textarea = document.createElement('textarea');  
+                textarea.value = apText;  
+                document.body.appendChild(textarea);  
+                textarea.select();  
+                document.execCommand('copy');  
+                document.body.removeChild(textarea);  
+                alert('Copied to clipboard!');  
+            });  
+        }
+
+        // ===================== RESET ALL =====================  
+        function resetAll() {  
+            if (!confirm('Reset all calculators and clear all data?')) return;  
+              
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => {  
+                cb.checked = false;  
+                const item = cb.closest('.calc-item');  
+                if (item) item.classList.remove('selected');  
+            });  
+              
+            document.querySelector('input[name="mets"][value="4"]').checked = true;  
+              
+            document.getElementById('procedureRisk').value = 'intermediate';  
+            document.getElementById('patientRisk').value = 'low';  
+            document.getElementById('funcCapacity').value = 'greater4';  
+            document.getElementById('anticoagStatus').value = 'none';  
+            document.getElementById('betaBlocker').value = 'none';  
+            document.getElementById('nsqipASA').value = '3';  
+            document.getElementById('nsqipAge').value = '65';  
+            document.getElementById('nsqipFunc').value = 'independent';  
+            document.getElementById('nsqipCr').value = '1.0';  
+            document.getElementById('nsqipSurgery').value = 'intermediate';  
+              
+            document.getElementById('procedureName').value = '';  
+            document.getElementById('additionalComments').value = '';  
+              
+            document.getElementById('apOutput').textContent = 'Click "Generate A&P" to create the assessment and plan text.';  
+              
+            calculateRCRI();  
+            calculateAUBHAS();  
+            updateNSQIPEstimate();  
+            calculateMETs();  
+        }
+
+        // ===================== INITIALIZE =====================  
+        document.addEventListener('DOMContentLoaded', function() {  
+            calculateRCRI();  
+            calculateAUBHAS();  
+            updateNSQIPEstimate();  
+            calculateMETs();  
+        });  
+    </script>  
+</body>  
+</html>  
