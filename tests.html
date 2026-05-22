@@ -1,0 +1,384 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+<meta charset="UTF-8">  
+<title>PreopCalc Tests</title>  
+<style>  
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:980px;margin:0 auto;padding:24px;background:#f8fafc;color:#1f2933}  
+h1{color:#1a5f7a}  
+.summary{padding:16px;border-radius:8px;font-weight:600;font-size:1.05rem;margin:16px 0}  
+.summary.ok{background:#d4edda;color:#155724;border-left:4px solid #28a745}  
+.summary.fail{background:#f8d7da;color:#721c24;border-left:4px solid #dc3545}  
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}  
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid #e0e6ec;font-size:.88rem}  
+th{background:#eef2f6;font-weight:600}  
+tr.pass td:first-child{color:#28a745}  
+tr.fail td:first-child{color:#dc3545;font-weight:700}  
+tr.fail td:last-child{color:#dc3545;font-family:Consolas,monospace;font-size:.78rem}  
+code{font-family:Consolas,'SF Mono',monospace;font-size:.82rem;background:#f0f4f8;padding:1px 4px;border-radius:3px}  
+.note{font-size:.82rem;color:#5b6b7a;margin-top:24px;line-height:1.5}  
+.section{font-size:.78rem;color:#1a5f7a;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding-top:12px}  
+</style>  
+</head>  
+<body>
+
+<h1>PreopCalc Tests</h1>  
+<p>Asserts behavior of the pure calculation functions used in <code>index.html</code>.</p>
+
+<div id="summary" class="summary">Running...</div>
+
+<table id="results">  
+<thead><tr><th style="width:60px">Status</th><th>Test</th><th>Detail</th></tr></thead>  
+<tbody></tbody>  
+</table>
+
+<p class="note">  
+<strong>⚠️ Sync note:</strong> The <code>PreopCalc</code> namespace below is duplicated from <code>index.html</code>. If a function changes in index.html, update it here too. Look for the <code>===== PREOPCALC START =====</code> marker in both files.  
+</p>
+
+<script>  
+// ===== PREOPCALC START =====  
+// MUST MATCH the PreopCalc namespace inside index.html.  
+var PreopCalc={  
+    rcri:function(c){var keys=['highRiskSurgery','ihd','hf','cvd','idm','ckd'];var score=0;for(var i=0;i<keys.length;i++){if(c[keys[i]])score++}var rates=['3.9','6.0','10.1','15+'];var rate=score>=3?rates[3]:rates[score];var category=score===0?'very-low':score===1?'low':score===2?'intermediate':'high';return{score:score,rate:rate,category:category}},  
+    aubhas:function(c){var weights={heartDisease:1,angina:1,age75:1,hbLow:1,vascular:1,emergency:2};var score=0;var k=Object.keys(weights);for(var i=0;i<k.length;i++){if(c[k[i]])score+=weights[k[i]]}var category=score<=1?'low':score<=3?'intermediate':'high';var rates={low:'~1',intermediate:'~5-10',high:'~15+'};return{score:score,category:category,rate:rates[category]}},  
+    dasi:function(answers){if(!Array.isArray(answers)||answers.length!==12)throw new Error('DASI requires 12 answers');var weights=[2.75,1.75,2.75,5.50,8.00,2.70,3.50,8.00,4.50,5.25,6.00,7.50];var raw=0;for(var i=0;i<12;i++){if(answers[i])raw+=weights[i]}var vo2=0.43*raw+9.6;var mets=vo2/3.5;var category=raw>34?'adequate':raw>=25?'borderline':'poor';return{score:Math.round(raw*10)/10,vo2:Math.round(vo2*10)/10,mets:Math.round(mets*10)/10,category:category}},  
+    biomarkers:function(input){var age=input.age;var hasCVD=!!input.hasCVD;var hasSymptoms=!!input.hasSymptoms;var ntProBnp=(input.ntProBnp===null||input.ntProBnp===undefined||input.ntProBnp==='')?null:Number(input.ntProBnp);var hsTroponinElevated=input.hsTroponinElevated===true?true:null;var indicated=age>=65||hasCVD||(age>=45&&hasSymptoms);if(!indicated)return{indicated:false,ntElevated:null,hsTroponinElevated:null,anyElevated:false,summary:'not-indicated'};var ntThreshold=age>=75?450:125;var ntElevated=(ntProBnp===null)?null:ntProBnp>=ntThreshold;var anyMeasured=ntProBnp!==null||hsTroponinElevated!==null;var anyElevated=(ntElevated===true)||(hsTroponinElevated===true);var summary;if(!anyMeasured)summary='indicated-not-measured';else if(anyElevated)summary='elevated';else summary='normal';return{indicated:indicated,ntThreshold:ntThreshold,ntElevated:ntElevated,hsTroponinElevated:hsTroponinElevated,anyElevated:anyElevated,summary:summary}},  
+    generateAP:function(state){  
+        var RL={low:'Low',intermediate:'Intermediate',high:'High'};  
+        var URG={elective:'Elective','time-sensitive':'Time-sensitive',urgent:'Urgent',emergency:'Emergency'};  
+        var rcriRateMap={0:'3.9',1:'6.0',2:'10.1'};var rcriRate=rcriRateMap[state.rcri.score]||'15+';  
+        var ap='PERIOPERATIVE CARDIOVASCULAR RISK ASSESSMENT';  
+        ap+='\n\nPROCEDURE: '+(state.procedure||'[Not specified]');  
+        ap+='\nProcedure Risk: '+RL[state.procedureRisk];  
+        ap+='\nSurgical Urgency: '+URG[state.urgency];  
+        ap+='\nPatient Cardiac Risk: '+RL[state.patientRisk];  
+        ap+='\n\nRISK SCORES:';  
+        ap+='\n\u2022 RCRI: '+state.rcri.score+'/6 \u2014 '+rcriRate+'% estimated 30-day risk of major adverse cardiac events (MI, pulmonary edema, VF, cardiac arrest, complete heart block)';  
+        ap+='\n\u2022 AUB-HAS2: '+state.aubhas.score+'/7 \u2014 '+state.aubhas.rate+'% estimated 30-day risk of cardiovascular complications and mortality';  
+        if(state.dasi.score!==null){  
+            ap+='\n\u2022 DASI: '+state.dasi.score+'/58.2 \u2014 estimated '+state.dasi.mets+' METs (VO\u2082peak '+state.dasi.vo2+' mL/kg/min)';  
+            var di=state.dasi.category==='adequate'?'adequate functional capacity':state.dasi.category==='borderline'?'borderline functional capacity':'poor functional capacity';  
+            ap+=' \u2014 '+di;  
+        }  
+        if(state.biomarkers.indicated){  
+            ap+='\n\u2022 Cardiac biomarkers: ';  
+            if(state.biomarkers.summary==='normal')ap+='normal (NT-proBNP and/or hs-troponin within reference range) \u2014 reassuring per 2024 AHA/ACC';  
+            else if(state.biomarkers.summary==='elevated')ap+='elevated \u2014 confers increased perioperative cardiovascular risk';  
+            else ap+='indicated (per age/CVD criteria) \u2014 consider checking NT-proBNP \u00b1 hs-troponin';  
+        }  
+        var conds=[];  
+        if(state.conditions.acs)conds.push('Unstable angina/recent ACS');if(state.conditions.decompHF)conds.push('Decompensated heart failure');if(state.conditions.severeAS)conds.push('Severe symptomatic aortic stenosis');if(state.conditions.sigArrhythmia)conds.push('Significant arrhythmia');if(state.conditions.recentPCI)conds.push('Recent PCI/stent');if(state.conditions.recentMI)conds.push('Recent MI (<60 days)');  
+        if(conds.length)ap+='\n\nACTIVE CARDIAC CONDITIONS:\n\u2022 '+conds.join('\n\u2022 ');  
+        var mods=[];  
+        if(state.modifiers.severePH)mods.push('Severe pulmonary hypertension');if(state.modifiers.priorCABG)mods.push('Prior CABG');if(state.modifiers.severeValve)mods.push('Severe non-AS valvular disease');if(state.modifiers.frailty)mods.push('Frailty');  
+        if(mods.length)ap+='\n\nRISK MODIFIERS (per 2024 guideline):\n\u2022 '+mods.join('\n\u2022 ');  
+        if(state.additionalComments)ap+='\n\nCLINICAL NOTES:\n'+state.additionalComments;  
+        ap+='\n\nASSESSMENT:\n';  
+        var hasActive=state.conditions.acs||state.conditions.decompHF||state.conditions.severeAS||state.conditions.recentMI;  
+        if(hasActive)ap+='Active cardiac condition(s) identified which confer elevated perioperative risk. ';  
+        ap+='Patient is at '+RL[state.patientRisk].toLowerCase()+' cardiac risk undergoing '+RL[state.procedureRisk].toLowerCase()+'-risk '+URG[state.urgency].toLowerCase()+' surgery. ';  
+        if(state.dasi.category==='adequate')ap+='DASI '+state.dasi.score+' indicates adequate functional capacity (estimated '+state.dasi.mets+' METs).';  
+        else if(state.dasi.category==='borderline')ap+='DASI '+state.dasi.score+' indicates borderline functional capacity (estimated '+state.dasi.mets+' METs).';  
+        else if(state.dasi.category==='poor')ap+='DASI '+state.dasi.score+' indicates poor functional capacity (estimated '+state.dasi.mets+' METs), associated with increased perioperative risk.';  
+        else ap+='Functional capacity not assessed.';  
+        ap+='\n\nRECOMMENDATIONS:';var n=1;  
+        var isEm=state.urgency==='emergency';var isUr=state.urgency==='urgent';  
+        if(state.conditions.acs||state.conditions.recentMI){if(isEm||isUr)ap+='\n'+(n++)+'. ACS/recent MI in setting of '+URG[state.urgency].toLowerCase()+' surgery \u2014 proceed with intensive perioperative monitoring; defer non-essential optimization to postoperative period.';else ap+='\n'+(n++)+'. Defer elective surgery pending evaluation and stabilization of acute coronary syndrome.'}  
+        if(state.conditions.decompHF)ap+='\n'+(n++)+'. Optimize heart failure prior to elective surgery (diurese if volume-overloaded, GDMT adjustment). If urgent/emergency, proceed with close hemodynamic monitoring.';  
+        if(state.conditions.severeAS)ap+='\n'+(n++)+'. Severe symptomatic aortic stenosis significantly increases perioperative risk. Consider valve intervention prior to elective surgery; if time-sensitive/urgent, proceed with arterial-line monitoring and avoidance of hypotension.';  
+        if(state.modifiers.severePH)ap+='\n'+(n++)+'. Severe pulmonary hypertension \u2014 consider pulmonary HTN specialist input and arterial monitoring; avoid hypoxia, hypercarbia, acidosis.';  
+        if(state.modifiers.frailty)ap+='\n'+(n++)+'. Frailty noted \u2014 discuss prehabilitation if elective, geriatrics consult if available.';  
+        if(!hasActive){  
+            if(state.patientRisk==='low'&&state.dasi.category==='adequate')ap+='\n'+(n++)+'. No additional preoperative cardiac testing indicated based on low clinical risk and adequate functional capacity (DASI >34).';  
+            else if(state.dasi.category==='poor'&&(state.rcri.score>=1||state.patientRisk!=='low'))ap+='\n'+(n++)+'. Given poor functional capacity (DASI <25) with elevated risk factors, consider NT-proBNP/hs-troponin and pharmacologic stress testing only if results would change management.';  
+            else if(state.dasi.category==='borderline'&&state.patientRisk!=='low')ap+='\n'+(n++)+'. Borderline functional capacity (DASI 25-34) \u2014 consider NT-proBNP for further stratification before considering stress testing.';  
+        }  
+        if(state.biomarkers.indicated&&state.biomarkers.summary==='indicated-not-measured')ap+='\n'+(n++)+'. NT-proBNP and/or hs-troponin testing is reasonable per 2024 AHA/ACC (age \u226565, known CVD, or age \u226545 with cardiac symptoms). Normal biomarkers would obviate further cardiac testing.';  
+        if(state.biomarkers.summary==='elevated')ap+='\n'+(n++)+'. Elevated cardiac biomarker(s) \u2014 confers increased risk; consider downstream cardiology evaluation if it would change perioperative management.';  
+        if(state.betaBlocker==='current')ap+='\n'+(n++)+'. Continue beta-blocker perioperatively. Avoid abrupt discontinuation.';  
+        else if(state.rcri.score>=3||state.patientRisk==='high')ap+='\n'+(n++)+'. Consider beta-blocker initiation \u2014 start \u22657 days before surgery with careful titration. Do NOT start day-of (per 2024 AHA/ACC).';  
+        ap+='\n'+(n++)+'. Continue statin therapy perioperatively; initiate preoperatively if indicated.';  
+        if(state.anticoag==='dapt'){if(state.conditions.recentPCI)ap+='\n'+(n++)+'. On DAPT with recent PCI. Coordinate antiplatelet management with interventional cardiology and surgical team. Recommended delay timelines: 12 months post-DES (acute/complex), 6 months (chronic stable), 3 months acceptable for time-sensitive surgery.';else ap+='\n'+(n++)+'. Continue aspirin if possible. Coordinate P2Y12 inhibitor with surgical team (hold timing: prasugrel 7d, clopidogrel 5d, ticagrelor 3d preop).'}  
+        else if(state.anticoag==='warfarin')ap+='\n'+(n++)+'. Coordinate warfarin management. Determine bridging need based on thrombotic risk vs bleeding risk.';  
+        else if(state.anticoag==='doac')ap+='\n'+(n++)+'. Hold DOAC preoperatively per surgical team guidance (typically 24-48 hr; longer if CrCl reduced or high bleeding risk).';  
+        else if(state.anticoag==='aspirin')ap+='\n'+(n++)+'. Continue aspirin perioperatively if bleeding risk acceptable.';  
+        if(state.conditions.recentPCI&&state.anticoag!=='dapt')ap+='\n'+(n++)+'. Recent PCI noted. Confirm antiplatelet regimen and timing since stent placement; observe delay timelines (12mo complex DES, 6mo chronic, 3mo time-sensitive).';  
+        if(state.glp1==='daily-not-held')ap+='\n'+(n++)+'. \u26a0\ufe0f Daily GLP-1 RA NOT held preoperatively \u2014 increased aspiration risk. Consider rapid sequence induction, gastric ultrasound, or case delay.';  
+        else if(state.glp1==='weekly-not-held')ap+='\n'+(n++)+'. \u26a0\ufe0f Weekly GLP-1 RA NOT held \u2014 high aspiration risk per 2023 ASA / 2025 ASGE. Strongly consider delay (\u22651 week hold) if surgery is elective; otherwise RSI and gastric ultrasound.';  
+        else if(state.glp1==='daily-held')ap+='\n'+(n++)+'. Daily GLP-1 RA appropriately held day-of (per 2023 ASA guidance).';  
+        else if(state.glp1==='weekly-held')ap+='\n'+(n++)+'. Weekly GLP-1 RA appropriately held \u22651 week preop (per 2023 ASA / 2025 ASGE).';  
+        ap+='\n\n---\nThis consult provides perioperative cardiac risk stratification to inform shared decision-making \u2014 it does not "clear" the patient for surgery, which remains the surgical team\'s and patient\'s joint decision. Estimates are 30-day risks based on validated scores (RCRI, AUB-HAS2, DASI, NT-proBNP/troponin per 2024 AHA/ACC).';  
+        return ap;  
+    }  
+};  
+// ===== PREOPCALC END =====
+
+// ===== TEST RUNNER =====  
+var results=[];  
+function assert(name,expected,actual){results.push({name:name,pass:JSON.stringify(expected)===JSON.stringify(actual),expected:expected,actual:actual})}  
+function approxEq(name,expected,actual,tol){tol=tol||0.01;results.push({name:name,pass:typeof actual==='number'&&Math.abs(expected-actual)<=tol,expected:'\u2248 '+expected,actual:actual})}  
+function assertContains(name,needle,haystack){var pass=typeof haystack==='string'&&haystack.indexOf(needle)>=0;results.push({name:name,pass:pass,expected:'contains: "'+needle+'"',actual:pass?'OK':'NOT FOUND'})}  
+function assertNotContains(name,needle,haystack){var pass=typeof haystack==='string'&&haystack.indexOf(needle)===-1;results.push({name:name,pass:pass,expected:'does not contain: "'+needle+'"',actual:pass?'OK':'FOUND'})}  
+function sectionHeader(name){results.push({name:name,pass:null,section:true})}
+
+// ===== RCRI TESTS =====  
+sectionHeader('RCRI');
+
+var rcriEmpty=PreopCalc.rcri({});  
+assert('RCRI all empty \u2192 score 0',0,rcriEmpty.score);  
+assert('RCRI all empty \u2192 very-low','very-low',rcriEmpty.category);  
+assert('RCRI all empty \u2192 3.9%','3.9',rcriEmpty.rate);
+
+var rcriOne=PreopCalc.rcri({ihd:true});  
+assert('RCRI 1 (IHD only) \u2192 score 1',1,rcriOne.score);  
+assert('RCRI 1 \u2192 low','low',rcriOne.category);  
+assert('RCRI 1 \u2192 6.0%','6.0',rcriOne.rate);
+
+var rcriTwo=PreopCalc.rcri({ihd:true,hf:true});  
+assert('RCRI 2 \u2192 score 2',2,rcriTwo.score);  
+assert('RCRI 2 \u2192 intermediate','intermediate',rcriTwo.category);  
+assert('RCRI 2 \u2192 10.1%','10.1',rcriTwo.rate);
+
+var rcriThree=PreopCalc.rcri({ihd:true,hf:true,cvd:true});  
+assert('RCRI 3 \u2192 score 3',3,rcriThree.score);  
+assert('RCRI 3 \u2192 high','high',rcriThree.category);  
+assert('RCRI 3 \u2192 15+%','15+',rcriThree.rate);
+
+var rcriAll=PreopCalc.rcri({highRiskSurgery:true,ihd:true,hf:true,cvd:true,idm:true,ckd:true});  
+assert('RCRI all 6 \u2192 score 6',6,rcriAll.score);  
+assert('RCRI all 6 \u2192 high','high',rcriAll.category);
+
+// ===== AUB-HAS2 TESTS =====  
+sectionHeader('AUB-HAS2');
+
+var aubEmpty=PreopCalc.aubhas({});  
+assert('AUB-HAS2 empty \u2192 score 0',0,aubEmpty.score);  
+assert('AUB-HAS2 empty \u2192 low','low',aubEmpty.category);
+
+var aubEmergency=PreopCalc.aubhas({emergency:true});  
+assert('AUB-HAS2 emergency only \u2192 2',2,aubEmergency.score);  
+assert('AUB-HAS2 emergency \u2192 intermediate','intermediate',aubEmergency.category);
+
+var aubThree=PreopCalc.aubhas({heartDisease:true,angina:true,age75:true});  
+assert('AUB-HAS2 three 1-pt \u2192 score 3',3,aubThree.score);  
+assert('AUB-HAS2 3 \u2192 intermediate','intermediate',aubThree.category);
+
+var aubAll=PreopCalc.aubhas({heartDisease:true,angina:true,age75:true,hbLow:true,vascular:true,emergency:true});  
+assert('AUB-HAS2 all checked \u2192 7',7,aubAll.score);  
+assert('AUB-HAS2 all \u2192 high','high',aubAll.category);
+
+var aubFour=PreopCalc.aubhas({heartDisease:true,angina:true,age75:true,hbLow:true});  
+assert('AUB-HAS2 score 4 \u2192 high','high',aubFour.category);
+
+var aubOne=PreopCalc.aubhas({vascular:true});  
+assert('AUB-HAS2 score 1 \u2192 low','low',aubOne.category);  
+assert('AUB-HAS2 score 1 \u2192 rate ~1','~1',aubOne.rate);
+
+// ===== DASI TESTS =====  
+sectionHeader('DASI');
+
+var dasiNone=PreopCalc.dasi([false,false,false,false,false,false,false,false,false,false,false,false]);  
+assert('DASI all-false \u2192 score 0',0,dasiNone.score);  
+approxEq('DASI all-false \u2192 VO2 9.6',9.6,dasiNone.vo2);  
+approxEq('DASI all-false \u2192 2.7 METs',2.7,dasiNone.mets,0.05);  
+assert('DASI all-false \u2192 poor','poor',dasiNone.category);
+
+var dasiAll=PreopCalc.dasi([true,true,true,true,true,true,true,true,true,true,true,true]);  
+approxEq('DASI all-true \u2192 score 58.2',58.2,dasiAll.score,0.1);  
+approxEq('DASI all-true \u2192 VO2 34.6',34.6,dasiAll.vo2,0.2);  
+assert('DASI all-true \u2192 adequate','adequate',dasiAll.category);
+
+// Items 1-4 + 6-7 = 2.75+1.75+2.75+5.50+2.70+3.50 = 18.95  
+var dasiPartial=PreopCalc.dasi([true,true,true,true,false,true,true,false,false,false,false,false]);  
+approxEq('DASI partial \u2192 ~19.0',19.0,dasiPartial.score,0.1);  
+assert('DASI 19 \u2192 poor','poor',dasiPartial.category);
+
+// Items 1-4 + 6-8 = 18.95+8.00 = 26.95  
+var dasiBorder=PreopCalc.dasi([true,true,true,true,false,true,true,true,false,false,false,false]);  
+approxEq('DASI border \u2192 ~27.0',27.0,dasiBorder.score,0.1);  
+assert('DASI 27 \u2192 borderline','borderline',dasiBorder.category);
+
+// Boundary test: exactly 25 should be borderline  
+var dasi25=PreopCalc.dasi([true,true,true,true,false,true,true,false,true,false,false,false]);  
+// 2.75+1.75+2.75+5.50+2.70+3.50+4.50 = 23.45 — still poor  
+assert('DASI 23.45 \u2192 poor','poor',dasi25.category);
+
+// Items 1-4 + 6-9 + 10 + 11 = 18.95+8+4.5+5.25+6 = 42.7  
+var dasiOK=PreopCalc.dasi([true,true,true,true,false,true,true,true,true,true,true,false]);  
+approxEq('DASI adequate \u2192 ~42.7',42.7,dasiOK.score,0.1);  
+assert('DASI 42.7 \u2192 adequate','adequate',dasiOK.category);
+
+var dasiThrew=false;  
+try{PreopCalc.dasi([true,false])}catch(e){dasiThrew=true}  
+assert('DASI wrong-length throws',true,dasiThrew);
+
+// ===== BIOMARKER TESTS =====  
+sectionHeader('Biomarkers');
+
+var bmNotInd=PreopCalc.biomarkers({age:40,hasCVD:false,hasSymptoms:false});  
+assert('BM age 40 no risk \u2192 not indicated',false,bmNotInd.indicated);  
+assert('BM age 40 \u2192 summary not-indicated','not-indicated',bmNotInd.summary);
+
+var bmAge70=PreopCalc.biomarkers({age:70,hasCVD:false,hasSymptoms:false});  
+assert('BM age 70 \u2192 indicated',true,bmAge70.indicated);
+
+var bmCVD=PreopCalc.biomarkers({age:50,hasCVD:true,hasSymptoms:false});  
+assert('BM age 50 + CVD \u2192 indicated',true,bmCVD.indicated);
+
+var bm45Sym=PreopCalc.biomarkers({age:50,hasCVD:false,hasSymptoms:true});  
+assert('BM age 50 + symptoms \u2192 indicated',true,bm45Sym.indicated);
+
+var bm44Sym=PreopCalc.biomarkers({age:44,hasCVD:false,hasSymptoms:true});  
+assert('BM age 44 + symptoms \u2192 NOT indicated',false,bm44Sym.indicated);
+
+var bmNorm=PreopCalc.biomarkers({age:70,ntProBnp:100,hsTroponinElevated:null});  
+assert('NT 100 at age 70 \u2192 normal','normal',bmNorm.summary);  
+assert('  threshold under 75 = 125',125,bmNorm.ntThreshold);  
+assert('  ntElevated false',false,bmNorm.ntElevated);  
+assert('  anyElevated false',false,bmNorm.anyElevated);
+
+var bmHigh=PreopCalc.biomarkers({age:70,ntProBnp:200});  
+assert('NT 200 at age 70 \u2192 elevated','elevated',bmHigh.summary);  
+assert('  ntElevated true',true,bmHigh.ntElevated);
+
+var bmElder=PreopCalc.biomarkers({age:80,ntProBnp:300});  
+assert('NT 300 at age 80 \u2192 normal','normal',bmElder.summary);  
+assert('  threshold 75+ = 450',450,bmElder.ntThreshold);
+
+var bmElderHigh=PreopCalc.biomarkers({age:80,ntProBnp:500});  
+assert('NT 500 at age 80 \u2192 elevated','elevated',bmElderHigh.summary);
+
+var bmTrop=PreopCalc.biomarkers({age:70,hsTroponinElevated:true});  
+assert('hs-troponin elevated alone \u2192 elevated','elevated',bmTrop.summary);
+
+var bmNotMeasured=PreopCalc.biomarkers({age:70});  
+assert('Indicated but no values \u2192 indicated-not-measured','indicated-not-measured',bmNotMeasured.summary);
+
+// Boundary: exactly 125 at age 70 should be elevated  
+var bmBoundary=PreopCalc.biomarkers({age:70,ntProBnp:125});  
+assert('NT exactly 125 at age 70 \u2192 elevated','elevated',bmBoundary.summary);
+
+// Boundary: exactly 450 at age 80 should be elevated  
+var bmBound2=PreopCalc.biomarkers({age:80,ntProBnp:450});  
+assert('NT exactly 450 at age 80 \u2192 elevated','elevated',bmBound2.summary);
+
+// ===== A&P GENERATION TESTS =====  
+sectionHeader('A&P Generation');
+
+function baseState(overrides){  
+    var s={procedure:'Total knee arthroplasty',procedureRisk:'intermediate',urgency:'elective',patientRisk:'low',anticoag:'none',betaBlocker:'none',glp1:'none',additionalComments:'',  
+    conditions:{acs:false,decompHF:false,severeAS:false,sigArrhythmia:false,recentPCI:false,recentMI:false},  
+    modifiers:{severePH:false,priorCABG:false,severeValve:false,frailty:false},  
+    rcri:PreopCalc.rcri({}),aubhas:PreopCalc.aubhas({}),  
+    dasi:PreopCalc.dasi([true,true,true,true,true,true,true,true,true,true,true,true]),  
+    biomarkers:PreopCalc.biomarkers({age:50,hasCVD:false,hasSymptoms:false})};  
+    if(overrides){for(var k in overrides){if(overrides.hasOwnProperty(k))s[k]=overrides[k]}}  
+    return s;  
+}
+
+var apBase=PreopCalc.generateAP(baseState());  
+assertContains('A&P contains procedure','Total knee arthroplasty',apBase);  
+assertContains('A&P contains disclaimer','does not "clear"',apBase);  
+assertContains('A&P contains DASI line','DASI:',apBase);  
+assertContains('A&P contains AUB-HAS2 line','AUB-HAS2:',apBase);  
+assertContains('A&P contains RCRI line','RCRI:',apBase);  
+assertContains('A&P contains statin rec','statin therapy',apBase);  
+assertContains('A&P contains urgency','Elective',apBase);  
+assertNotContains('A&P low-risk omits stress rec','stress testing only if',apBase);
+
+// Emergency + ACS  
+var apEmer=PreopCalc.generateAP(baseState({urgency:'emergency',conditions:{acs:true,decompHF:false,severeAS:false,sigArrhythmia:false,recentPCI:false,recentMI:false}}));  
+assertContains('A&P emergency ACS \u2192 intensive monitoring','intensive perioperative monitoring',apEmer);  
+assertContains('A&P emergency \u2192 urgency in text','Emergency',apEmer);
+
+// Elective ACS  
+var apElectACS=PreopCalc.generateAP(baseState({conditions:{acs:true,decompHF:false,severeAS:false,sigArrhythmia:false,recentPCI:false,recentMI:false}}));  
+assertContains('A&P elective ACS \u2192 defer','Defer elective surgery',apElectACS);
+
+// Poor DASI  
+var apPoorDASI=PreopCalc.generateAP(baseState({dasi:PreopCalc.dasi([false,false,false,false,false,false,false,false,false,false,false,false]),rcri:PreopCalc.rcri({ihd:true}),patientRisk:'intermediate'}));  
+assertContains('A&P poor DASI \u2192 stress test mention','DASI <25',apPoorDASI);  
+assertContains('A&P poor DASI \u2192 change management','change management',apPoorDASI);
+
+// GLP-1 weekly not held  
+var apGLP1=PreopCalc.generateAP(baseState({glp1:'weekly-not-held'}));  
+assertContains('A&P GLP-1 weekly not held \u2192 aspiration','aspiration risk',apGLP1);
+
+// GLP-1 daily held  
+var apGLP1held=PreopCalc.generateAP(baseState({glp1:'daily-held'}));  
+assertContains('A&P GLP-1 daily held \u2192 appropriately','appropriately held',apGLP1held);
+
+// Risk modifiers  
+var apMods=PreopCalc.generateAP(baseState({modifiers:{severePH:true,priorCABG:true,severeValve:false,frailty:true}}));  
+assertContains('A&P modifiers section','RISK MODIFIERS',apMods);  
+assertContains('A&P lists severe PH','Severe pulmonary hypertension',apMods);  
+assertContains('A&P frailty rec','prehabilitation',apMods);  
+assertContains('A&P prior CABG in list','Prior CABG',apMods);
+
+// DAPT + recent PCI  
+var apDAPT=PreopCalc.generateAP(baseState({anticoag:'dapt',conditions:{acs:false,decompHF:false,severeAS:false,sigArrhythmia:false,recentPCI:true,recentMI:false}}));  
+assertContains('A&P DAPT+PCI \u2192 delay timelines','12 months post-DES',apDAPT);
+
+// Beta-blocker high risk  
+var apBB=PreopCalc.generateAP(baseState({rcri:PreopCalc.rcri({highRiskSurgery:true,ihd:true,hf:true}),patientRisk:'high'}));  
+assertContains('A&P high-risk no BB \u2192 7-day language','7 days',apBB);  
+assertContains('A&P high-risk \u2192 do NOT start day-of','Do NOT start day-of',apBB);
+
+// Beta-blocker current  
+var apBBcurrent=PreopCalc.generateAP(baseState({betaBlocker:'current'}));  
+assertContains('A&P current BB \u2192 continue','Continue beta-blocker',apBBcurrent);
+
+// DOAC  
+var apDOAC=PreopCalc.generateAP(baseState({anticoag:'doac'}));  
+assertContains('A&P DOAC \u2192 hold','Hold DOAC',apDOAC);
+
+// Warfarin  
+var apWarf=PreopCalc.generateAP(baseState({anticoag:'warfarin'}));  
+assertContains('A&P warfarin \u2192 bridging','bridging',apWarf);
+
+// Biomarkers elevated  
+var apBMelev=PreopCalc.generateAP(baseState({biomarkers:PreopCalc.biomarkers({age:70,ntProBnp:300})}));  
+assertContains('A&P elevated biomarkers \u2192 increased risk','Elevated cardiac biomarker',apBMelev);
+
+// No procedure specified  
+var apNoProc=PreopCalc.generateAP(baseState({procedure:''}));  
+assertContains('A&P no procedure \u2192 placeholder','[Not specified]',apNoProc);
+
+// Additional comments  
+var apComments=PreopCalc.generateAP(baseState({additionalComments:'LVEF 55%'}));  
+assertContains('A&P additional comments included','LVEF 55%',apComments);
+
+// Severe AS  
+var apAS=PreopCalc.generateAP(baseState({conditions:{acs:false,decompHF:false,severeAS:true,sigArrhythmia:false,recentPCI:false,recentMI:false}}));  
+assertContains('A&P severe AS \u2192 valve intervention','valve intervention',apAS);
+
+// Decompensated HF  
+var apHF=PreopCalc.generateAP(baseState({conditions:{acs:false,decompHF:true,severeAS:false,sigArrhythmia:false,recentPCI:false,recentMI:false}}));  
+assertContains('A&P decompensated HF \u2192 optimize','Optimize heart failure',apHF);
+
+// ===== RENDER RESULTS =====  
+var tbody=document.querySelector('#results tbody');  
+var passes=0,fails=0;  
+for(var i=0;i<results.length;i++){  
+    var r=results[i];  
+    var tr=document.createElement('tr');  
+    if(r.section){  
+        tr.innerHTML='<td colspan="3" class="section">'+r.name+'</td>';  
+        tbody.appendChild(tr);  
+        continue;  
+    }  
+    tr.className=r.pass?'pass':'fail';  
+    var td1=document.createElement('td');td1.textContent=r.pass?'\u2705':'\u274c';  
+    var td2=document.createElement('td');td2.textContent=r.name;  
+    var td3=document.createElement('td');td3.textContent=r.pass?'':'expected '+JSON.stringify(r.expected)+', got '+JSON.stringify(r.actual);  
+    tr.appendChild(td1);tr.appendChild(td2);tr.appendChild(td3);  
+    tbody.appendChild(tr);  
+    if(r.pass)passes++;else fails++;  
+}  
+var sum=document.getElementById('summary');  
+if(fails===0){sum.className='summary ok';sum.textContent='\u2705 All '+passes+' tests passed.'}  
+else{sum.className='summary fail';sum.textContent='\u274c '+fails+' failed, '+passes+' passed ('+(passes+fails)+' total).'}  
+</script>  
+</body>  
+</html>  
