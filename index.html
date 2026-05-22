@@ -112,7 +112,7 @@
 <body>  
 <div class="container">  
     <div class="disclaimer-banner" id="disclaimerBanner">  
-        <div><strong>⚠️ Decision support only.</strong> Estimates 30-day cardiovascular risk to inform shared decision-making — not a substitute for clinical judgment, and does not "clear" patients for surgery. <strong>100% client-side:</strong> no patient data is transmitted or stored. Aligned with 2024 AHA/ACC perioperative guidelines.</div>  
+        <div><strong>⚠️ Decision support only.</strong> Estimates 30-day cardiovascular risk to inform shared decision-making — not a substitute for clinical judgment, and does not replace clinical judgment. <strong>100% client-side:</strong> no patient data is transmitted or stored. Aligned with 2024 AHA/ACC perioperative guidelines.</div>  
         <button id="dismissBannerBtn">Dismiss</button>  
     </div>
 
@@ -470,7 +470,7 @@ var PreopCalc={
         else if(state.glp1==='weekly-not-held')ap+='\n'+(n++)+'. \u26a0\ufe0f Weekly GLP-1 RA NOT held \u2014 high aspiration risk per 2023 ASA / 2025 ASGE. Strongly consider delay (\u22651 week hold) if surgery is elective; otherwise RSI and gastric ultrasound.';  
         else if(state.glp1==='daily-held')ap+='\n'+(n++)+'. Daily GLP-1 RA appropriately held day-of (per 2023 ASA guidance).';  
         else if(state.glp1==='weekly-held')ap+='\n'+(n++)+'. Weekly GLP-1 RA appropriately held \u22651 week preop (per 2023 ASA / 2025 ASGE).';  
-        ap+='\n\n---\nThis consult provides perioperative cardiac risk stratification to inform shared decision-making \u2014 it does not "clear" the patient for surgery, which remains the surgical team\'s and patient\'s joint decision. Estimates are 30-day risks based on validated scores (RCRI, AUB-HAS2, DASI, NT-proBNP/troponin per 2024 AHA/ACC).';  
+        ap+='\n\n---\nThis consult provides perioperative cardiac risk stratification to inform shared decision-making \u2014 The decision to proceed with the surgery/procedure is made by the performing physician and the patient. Estimates are 30-day risks based on validated scores (RCRI, AUB-HAS2, DASI, NT-proBNP/troponin per 2024 AHA/ACC).';  
         return ap;  
     }  
 };  
