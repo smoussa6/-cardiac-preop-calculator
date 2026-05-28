@@ -13,20 +13,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .disclaimer-banner{background:#fff3cd;border:1px solid #ffeaa7;border-left:4px solid #ffc107;padding:12px 16px;border-radius:8px;margin-bottom:12px;font-size:.85rem;line-height:1.5;color:#5d4e00;display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}  
 .disclaimer-banner>div:first-child{flex:1;min-width:240px}  
 .disclaimer-banner button{background:transparent;border:1px solid #5d4e00;color:#5d4e00;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:.8rem;font-weight:600;flex-shrink:0}  
-.disclaimer-banner button:hover{background:#5d4e00;color:#fff3cd}  
 header{background:#fff;padding:15px 20px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.15);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}  
 .logo{display:flex;align-items:center;gap:12px}  
 .logo svg{width:40px;height:40px;fill:var(--danger);flex-shrink:0}  
 .logo h1{color:var(--primary);font-size:1.2rem}  
 .logo span{color:var(--gray);font-size:.8rem;display:block}  
+.header-btns{display:flex;gap:8px;align-items:center}  
 .btn{padding:10px 18px;border:none;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;display:flex;align-items:center;gap:6px;white-space:nowrap;touch-action:manipulation}  
 .btn-success{background:var(--success);color:#fff}  
 .btn-outline{background:transparent;border:2px solid var(--primary);color:var(--primary)}  
 .btn-sm{padding:6px 12px;font-size:.8rem}  
-.tabs{display:flex;gap:4px;background:#fff;padding:8px;border-radius:12px;margin-bottom:12px;box-shadow:0 4px 15px rgba(0,0,0,.1);flex-wrap:wrap}  
-.tab{padding:12px 16px;border:none;background:transparent;cursor:pointer;border-radius:8px;font-weight:600;color:var(--gray);font-size:.9rem;white-space:nowrap;touch-action:manipulation;flex-shrink:0}  
+.btn-about{background:var(--light);border:2px solid #dee2e6;color:var(--gray);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600}  
+.btn-about:hover{border-color:var(--primary);color:var(--primary)}  
+.tabs{display:flex;gap:4px;background:#fff;padding:8px;border-radius:12px;margin-bottom:12px;box-shadow:0 4px 15px rgba(0,0,0,.1)}  
+.tab{padding:12px 20px;border:none;background:transparent;cursor:pointer;border-radius:8px;font-weight:600;color:var(--gray);font-size:.95rem;white-space:nowrap;touch-action:manipulation;flex:1;text-align:center}  
 .tab.active{background:var(--primary);color:#fff}  
-.tab-about{padding:10px 14px;font-size:.8rem;opacity:.7}  
 .tab-content{display:none}  
 .tab-content.active{display:block}  
 .card{background:#fff;border-radius:12px;padding:20px;margin-bottom:12px;box-shadow:0 4px 20px rgba(0,0,0,.08)}  
@@ -39,6 +40,7 @@ header{background:#fff;padding:15px 20px;border-radius:12px;box-shadow:0 4px 20p
 .form-group select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236c757d' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:35px}  
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--primary)}  
 .form-row{display:grid;grid-template-columns:1fr;gap:12px}  
+.med-grid{display:grid;grid-template-columns:1fr;gap:12px}  
 .checkbox-group{display:grid;grid-template-columns:1fr;gap:8px}  
 .checkbox-item{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--light);border-radius:10px;cursor:pointer;touch-action:manipulation;min-height:48px;border:2px solid #e0e0e0;transition:all .2s;font-size:.9rem}  
 .checkbox-item:hover{border-color:#90caf9;background:#f5f9ff}  
@@ -103,6 +105,14 @@ header{background:#fff;padding:15px 20px;border-radius:12px;box-shadow:0 4px 20p
 .warning-box{background:#fff3cd;border-left:4px solid var(--warning);padding:12px 15px;border-radius:0 8px 8px 0;margin:12px 0;font-size:.9rem}  
 .caveat-box{background:#fff0f0;border-left:4px solid var(--danger);padding:12px 15px;border-radius:0 8px 8px 0;margin:12px 0;font-size:.82rem;line-height:1.5;color:#721c24}  
 .caveat-box strong{color:var(--danger)}  
+.info-box{background:#e3f2fd;border:2px solid var(--primary);border-radius:10px;padding:15px;margin-top:8px;font-size:.82rem;line-height:1.6;display:none}  
+.info-box.visible{display:block}  
+.info-box h4{color:var(--primary);margin-bottom:8px;font-size:.9rem}  
+.info-box .trial-box{background:var(--light);border-radius:8px;padding:10px;margin:8px 0;border-left:3px solid var(--primary)}  
+.info-box .trial-box h5{color:var(--primary);font-size:.82rem;margin-bottom:4px}  
+.info-box .bottom-line{background:#e8f5e9;border-radius:8px;padding:10px;margin-top:8px;font-weight:600;color:#1b5e20;font-size:.82rem}  
+.sglt2-info{background:#fff8e1;border:2px solid var(--warning);border-radius:10px;padding:12px;margin-top:8px;font-size:.82rem;display:none;color:#5d4e00;line-height:1.5}  
+.sglt2-info.visible{display:block}  
 .risk-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.85rem}  
 .risk-table th,.risk-table td{padding:8px 10px;text-align:left;border:1px solid #ddd}  
 .risk-table th{background:var(--light);color:var(--dark);font-weight:600;font-size:.8rem}  
@@ -121,21 +131,12 @@ header{background:#fff;padding:15px 20px;border-radius:12px;box-shadow:0 4px 20p
 .mets-ref-item .mets-badge.low{background:var(--danger)}  
 .mets-ref-item .mets-badge.good{background:var(--success)}  
 .mets-ref-item .mets-badge.exc{background:var(--primary)}  
-.about-section{background:#fff;border-radius:12px;padding:20px;margin-bottom:12px;box-shadow:0 4px 20px rgba(0,0,0,.08);font-size:.88rem;line-height:1.6;color:var(--dark)}  
-.about-section h3{color:var(--primary);margin-bottom:10px}  
-.about-section p{margin-bottom:8px}  
-.about-section ul{margin:8px 0 8px 20px}  
-.about-section li{margin-bottom:4px}  
-.about-section .cite{font-size:.78rem;color:var(--gray);font-style:italic}  
 .pci-detail{background:#fff8e1;border:2px solid #ffc107;border-radius:10px;padding:15px;margin-top:8px;display:none}  
 .pci-detail.visible{display:block}  
 .pci-detail h4{color:#856404;margin-bottom:10px;font-size:.95rem}  
 .auto-risk-note{font-size:.78rem;color:var(--primary);margin-top:4px;font-style:italic}  
 .external-link{color:var(--primary);text-decoration:none;font-weight:600}  
 .proc-input-wrap{position:relative}  
-.proc-input-wrap input{padding-right:90px}  
-.proc-browse-btn{position:absolute;right:4px;top:50%;transform:translateY(-50%);padding:6px 10px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer}  
-.proc-browse-btn:hover{background:var(--primary-light)}  
 .proc-suggestions{position:absolute;top:100%;left:0;right:0;background:#fff;border:2px solid var(--primary);border-top:none;border-radius:0 0 8px 8px;max-height:250px;overflow-y:auto;z-index:100;display:none;box-shadow:0 8px 20px rgba(0,0,0,.15)}  
 .proc-suggestions.visible{display:block}  
 .proc-sug-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center;font-size:.88rem}  
@@ -144,6 +145,8 @@ header{background:#fff;padding:15px 20px;border-radius:12px;box-shadow:0 4px 20p
 .proc-risk-badge.low-badge{background:var(--success)}  
 .proc-risk-badge.int-badge{background:var(--warning);color:var(--dark)}  
 .proc-risk-badge.high-badge{background:var(--danger)}  
+.proc-browse-btn{width:100%;padding:10px;background:var(--light);border:2px solid #dee2e6;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--primary);margin-top:6px;text-align:center}  
+.proc-browse-btn:hover{background:#e3f2fd;border-color:var(--primary)}  
 .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}  
 .modal-overlay.visible{display:flex}  
 .modal{background:#fff;border-radius:12px;width:100%;max-width:600px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.3)}  
@@ -158,6 +161,12 @@ header{background:#fff;padding:15px 20px;border-radius:12px;box-shadow:0 4px 20p
 .modal-proc-item{padding:12px 20px;cursor:pointer;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center}  
 .modal-proc-item:hover{background:#e3f2fd}  
 .modal-proc-item:active{background:#bbdefb}  
+.about-section{padding:20px;font-size:.88rem;line-height:1.6;color:var(--dark)}  
+.about-section h3{color:var(--primary);margin-bottom:10px}  
+.about-section p{margin-bottom:8px}  
+.about-section ul{margin:8px 0 8px 20px}  
+.about-section li{margin-bottom:4px}  
+.about-section .cite{font-size:.78rem;color:var(--gray);font-style:italic}  
 .risk-info-btn{background:none;border:1px solid var(--gray);color:var(--gray);width:24px;height:24px;border-radius:50%;font-size:.75rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;margin-left:6px;vertical-align:middle}  
 .risk-info-btn:hover{background:var(--primary);color:#fff;border-color:var(--primary)}  
 .risk-info-popup{display:none;background:#fff;border:2px solid var(--primary);border-radius:10px;padding:15px;margin-top:8px;font-size:.82rem;line-height:1.6;box-shadow:0 4px 15px rgba(0,0,0,.1)}  
@@ -167,14 +176,13 @@ header{background:#fff;padding:15px 20px;border-radius:12px;box-shadow:0 4px 20p
 .ri-low{color:var(--success)}  
 .ri-int{color:#e67e22}  
 .ri-high{color:var(--danger)}  
-.collapsible-toggle{background:var(--light);border:2px solid #e0e0e0;border-radius:10px;padding:12px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:.9rem;color:var(--primary);margin:12px 0;transition:all .2s}  
-.collapsible-toggle:hover{border-color:var(--primary);background:#e3f2fd}  
-.collapsible-toggle .arrow{transition:transform .3s;font-size:.8rem}  
-.collapsible-toggle.open .arrow{transform:rotate(180deg)}  
-.collapsible-body{display:none;border:2px solid #e0e0e0;border-top:none;border-radius:0 0 10px 10px;padding:15px;margin-top:-12px;background:#fff}  
-.collapsible-body.visible{display:block}  
-.collapsible-body img{width:100%;height:auto;border-radius:8px}  
 .section-label{font-weight:700;color:var(--dark);font-size:.95rem;margin:16px 0 8px;padding-bottom:6px;border-bottom:1px solid #eee}  
+.pci-ref-table{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:8px}  
+.pci-ref-table th,.pci-ref-table td{padding:6px 10px;border:1px solid #e0d5a8;text-align:left}  
+.pci-ref-table th{background:#f5efd6;color:#5d4e00;font-weight:600}  
+.pci-ref-table td{background:#fffdf5}  
+.anticoag-img-wrap{margin-top:8px}  
+.anticoag-img-wrap img{width:100%;height:auto;border-radius:8px}  
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}  
 .pulse{animation:pulse 2s infinite}  
 @media(min-width:768px){  
@@ -182,6 +190,7 @@ body{padding:20px}
 .card{padding:25px}  
 .grid{grid-template-columns:1fr 1fr}  
 .form-row{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}  
+.med-grid{grid-template-columns:1fr 1fr}  
 .checkbox-group{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}  
 .score-comparison{grid-template-columns:repeat(4,1fr)}  
 .score-circle{width:120px;height:120px}  
@@ -195,7 +204,7 @@ body{padding:20px}
 body{padding:8px}  
 header{padding:12px}  
 .logo h1{font-size:1rem}  
-.tab{padding:10px 12px;font-size:.82rem}  
+.tab{padding:10px 14px;font-size:.85rem}  
 .calc-tab{padding:8px 10px;font-size:.8rem}  
 .card{padding:15px}  
 .score-circle{width:80px;height:80px}  
@@ -205,31 +214,27 @@ header{padding:12px}
 </style>  
 </head>  
 <body>  
-<div class="container">
-
+<div class="container">  
 <div class="disclaimer-banner" id="disclaimerBanner">  
 <div><strong>⚠️ Decision support only.</strong> Estimates 30-day cardiovascular risk — not a substitute for clinical judgment. <strong>100% client-side:</strong> no patient data transmitted or stored. Aligned with 2024 AHA/ACC perioperative guidelines.</div>  
 <button id="dismissBannerBtn">Dismiss</button>  
-</div>
-
+</div>  
 <header>  
 <div class="logo">  
 <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>  
 <div><h1>Cardiac PreOp Risk Calculator</h1><span>Perioperative CV Risk Stratification · 2024 ACC/AHA</span></div>  
 </div>  
-<div style="display:flex;gap:8px">  
+<div class="header-btns">  
 <button class="btn btn-outline" id="resetBtn">🔄 Reset</button>  
-<button class="btn btn-success" id="apBtn">📋 Generate A&P</button>  
+<button class="btn-about" id="aboutBtn">ℹ️ About</button>  
 </div>  
-</header>
-
+</header>  
 <div class="tabs">  
 <button class="tab active" data-tab="calculators">🧮 Risk Scores</button>  
 <button class="tab" data-tab="assessment">📋 Assessment & Plan</button>  
-<button class="tab tab-about" data-tab="about">ℹ️ About</button>  
 </div>
 
-<!-- ==================== CALCULATORS TAB ==================== -->  
+<!-- CALCULATORS TAB -->  
 <div id="calculators" class="tab-content active">  
 <div class="card">  
 <div class="card-header"><h2 class="card-title">📊 Score Summary</h2></div>  
@@ -247,8 +252,7 @@ header{padding:12px}
 <button class="calc-tab" data-calc="dasi">DASI / METs</button>  
 <button class="calc-tab" data-calc="biomarker">Biomarkers</button>  
 </div>  
-<div id="calc-rcri" class="calc-content active">  
-<div class="grid"><div>  
+<div id="calc-rcri" class="calc-content active"><div class="grid"><div>  
 <h4 style="margin-bottom:12px;color:var(--primary)">RCRI (Lee Index)</h4>  
 <div class="calc-item rcri-item" data-calc-type="rcri"><input type="checkbox" id="rcri1"><label for="rcri1"><strong>High-Risk Surgery</strong><small>Intraperitoneal, intrathoracic, or suprainguinal vascular</small></label><span class="points">1 pt</span></div>  
 <div class="calc-item rcri-item" data-calc-type="rcri"><input type="checkbox" id="rcri2"><label for="rcri2"><strong>Ischemic Heart Disease</strong><small>MI, positive stress test, ischemic chest pain, nitrate use, Q waves</small></label><span class="points">1 pt</span></div>  
@@ -261,10 +265,8 @@ header{padding:12px}
 <div class="recommendation-box" id="rcriRecommendation"></div>  
 <table class="risk-table"><thead><tr><th>Score</th><th>Class</th><th>30-day MACE</th></tr></thead><tbody id="rcriTable"><tr class="highlight-row"><td>0</td><td>I</td><td>3.9%</td></tr><tr><td>1</td><td>II</td><td>6.0%</td></tr><tr><td>2</td><td>III</td><td>10.1%</td></tr><tr><td>≥3</td><td>IV</td><td>15%+</td></tr></tbody></table>  
 <p class="ref">Lee TH et al. Circulation 1999;100:1043. Risk % per Davis 2013.</p>  
-</div></div>  
-</div>  
-<div id="calc-aubhas" class="calc-content">  
-<div class="grid"><div>  
+</div></div></div>  
+<div id="calc-aubhas" class="calc-content"><div class="grid"><div>  
 <h4 style="margin-bottom:12px;color:var(--orange)">AUB-HAS2 CV Risk Index</h4>  
 <div class="calc-item aubhas-item" data-calc-type="aubhas"><input type="checkbox" id="aubhas1"><label for="aubhas1"><strong>History of Heart Disease</strong><small>CAD, HF, cardiomyopathy, valvular</small></label><span class="points">1 pt</span></div>  
 <div class="calc-item aubhas-item" data-calc-type="aubhas"><input type="checkbox" id="aubhas2"><label for="aubhas2"><strong>Angina or Dyspnea</strong><small>On exertion</small></label><span class="points">1 pt</span></div>  
@@ -277,12 +279,10 @@ header{padding:12px}
 <div class="recommendation-box orange" id="aubhasRecommendation"></div>  
 <table class="risk-table"><thead><tr><th>Score</th><th>Risk</th><th>30-day CV</th></tr></thead><tbody id="aubhasTable"><tr class="highlight-row"><td>0-1</td><td>Low</td><td>~1%</td></tr><tr><td>2-3</td><td>Intermediate</td><td>~5-10%</td></tr><tr><td>≥4</td><td>High</td><td>~15%+</td></tr></tbody></table>  
 <p class="ref">Dakik HA et al. JAHA 2019;8:e016228.</p>  
-</div></div>  
-</div>  
+</div></div></div>  
 <div id="calc-dasi" class="calc-content">  
 <div class="subtab-row"><button class="subtab active" data-subtab="dasi-form">DASI Questionnaire</button><button class="subtab" data-subtab="mets-ref">METs Reference</button></div>  
-<div id="sub-dasi-form" class="subcontent active">  
-<div class="grid"><div>  
+<div id="sub-dasi-form" class="subcontent active"><div class="grid"><div>  
 <h4 style="margin-bottom:4px;color:#27ae60">Duke Activity Status Index</h4>  
 <p class="ref" style="margin-bottom:12px">2024 AHA/ACC Class 2a — preferred over subjective METs</p>  
 <div class="calc-item dasi-item" data-calc-type="dasi"><input type="checkbox" id="dasi1"><label for="dasi1"><strong>1. Self-care</strong><small>Eat, dress, bathe</small></label><span class="points">2.75</span></div>  
@@ -301,10 +301,8 @@ header{padding:12px}
 <div class="risk-calculator dasi-calc"><h3 style="text-align:center;margin-bottom:12px">DASI Score</h3><div class="risk-score"><div class="score-circle pulse"><span class="score-value" id="dasiScore">0</span><span class="score-label">DASI</span></div><div><div class="risk-level risk-high" id="dasiRiskLevel">Poor</div><p style="margin-top:8px;text-align:center;font-size:.9rem" id="dasiMets">≈ 2.7 METs (VO₂peak 9.6)</p></div></div></div>  
 <div class="recommendation-box green" id="dasiRecommendation"></div>  
 <table class="risk-table"><thead><tr><th>DASI</th><th>Capacity</th><th>Implication</th></tr></thead><tbody id="dasiTable"><tr class="highlight-row"><td><25</td><td>Poor</td><td>Consider further evaluation</td></tr><tr><td>25–34</td><td>Borderline</td><td>Context-dependent</td></tr><tr><td>>34</td><td>Adequate</td><td>Low risk — proceed</td></tr></tbody></table>  
-</div></div>  
-</div>  
-<div id="sub-mets-ref" class="subcontent">  
-<div class="grid"><div>  
+</div></div></div>  
+<div id="sub-mets-ref" class="subcontent"><div class="grid"><div>  
 <h4 style="margin-bottom:4px;color:#27ae60">METs Quick Reference</h4>  
 <p class="ref" style="margin-bottom:12px">Subjective METs did NOT predict 30-day MI/death (METS Lancet 2018)</p>  
 <div class="mets-ref-item"><span class="mets-badge low">1</span><span>Eat, dress, toilet</span></div>  
@@ -316,11 +314,9 @@ header{padding:12px}
 <div class="mets-ref-item"><span class="mets-badge exc">≥10</span><span>Run, swim laps</span></div>  
 </div><div>  
 <div class="recommendation-box green"><h4>📖 Teaching Point</h4><p>METS trial (n=1,401): physician-estimated METs did not predict 30-day MI/death. DASI did (OR 0.96/unit). Use DASI for documentation.</p></div>  
-</div></div>  
+</div></div></div>  
 </div>  
-</div>  
-<div id="calc-biomarker" class="calc-content">  
-<div class="grid"><div>  
+<div id="calc-biomarker" class="calc-content"><div class="grid"><div>  
 <h4 style="margin-bottom:4px;color:var(--purple)">Cardiac Biomarkers</h4>  
 <p class="ref" style="margin-bottom:12px">NT-proBNP Class 2a, hs-troponin Class 2b (2024 AHA/ACC)</p>  
 <div class="biomarker-form">  
@@ -332,18 +328,15 @@ header{padding:12px}
 <div class="form-row"><div class="form-group"><label>NT-proBNP (pg/mL)</label><input type="number" id="bmNTproBNP" placeholder="blank if not checked" min="0" max="50000"></div></div>  
 <div class="checkbox-group"><label class="checkbox-item"><input type="checkbox" id="bmTroponinElevated"> hs-troponin elevated</label></div>  
 </div>  
-<div class="caveat-box">  
-<strong>⚠️ Important caveat:</strong> No studies have demonstrated that biomarker-guided management improves perioperative cardiovascular outcomes. Measurement may trigger downstream testing without proven benefit. Consider clinical context before ordering.  
-</div>  
+<div class="caveat-box"><strong>⚠️ Important caveat:</strong> No studies have demonstrated that biomarker-guided management improves perioperative cardiovascular outcomes. Measurement may trigger downstream testing without proven benefit. Consider clinical context before ordering.</div>  
 </div><div>  
 <div class="risk-calculator biomarker-calc"><h3 style="text-align:center;margin-bottom:12px">Biomarker Assessment</h3><div class="risk-score"><div class="score-circle pulse"><span class="score-value" id="bmStatus">—</span><span class="score-label"></span></div><div><div class="risk-level risk-low" id="bmRiskLevel">Not assessed</div><p style="margin-top:8px;text-align:center;font-size:.9rem" id="bmInterpretation">Enter values</p></div></div></div>  
 <div class="recommendation-box purple" id="bmRecommendation"></div>  
-</div></div>  
-</div>  
+</div></div></div>  
 </div>  
 </div>
 
-<!-- ==================== ASSESSMENT TAB ==================== -->  
+<!-- ASSESSMENT TAB -->  
 <div id="assessment" class="tab-content">  
 <div class="card">  
 <div class="card-header"><h2 class="card-title">📊 Risk Assessment</h2></div>  
@@ -351,21 +344,14 @@ header{padding:12px}
 <div class="form-group"><label>Planned Procedure</label>  
 <div class="proc-input-wrap">  
 <input type="text" id="procedureName" placeholder="Type to search or enter custom..." autocomplete="off">  
-<button class="proc-browse-btn" id="procBrowseBtn">📋 Browse</button>  
 <div class="proc-suggestions" id="procSuggestions"></div>  
-</div></div>  
+</div>  
+<button class="proc-browse-btn" id="procBrowseBtn">📋 Browse All Procedures</button>  
+</div>  
 <div class="form-group"><label>Procedure Risk <button class="risk-info-btn" id="riskInfoBtn" type="button">ⓘ</button></label>  
 <select id="procedureRisk"><option value="low">Low (<1% MACE)</option><option value="intermediate" selected>Intermediate (1-5%)</option><option value="high">High (>5%)</option></select>  
-<div class="risk-info-popup" id="riskInfoPopup">  
-<h4>Procedure Risk Categories (2024 AHA/ACC)</h4>  
-<div class="ri-cat ri-low">LOW (<1% MACE)</div>  
-<div>Cataract · Endoscopy/colonoscopy · Superficial biopsy · Breast surgery · Dental · Ambulatory · Carpal tunnel</div>  
-<div class="ri-cat ri-int" style="margin-top:8px">INTERMEDIATE (1-5%)</div>  
-<div>TKA/THA · Lap cholecystectomy · Spine · Head & neck · Hernia · Carotid endarterectomy · TURP · Hysterectomy</div>  
-<div class="ri-cat ri-high" style="margin-top:8px">HIGH (>5%)</div>  
-<div>Open aortic · Major vascular · Whipple · Esophagectomy · Pneumonectomy · Liver resection · Open colectomy</div>  
-<p class="ref">Fleisher LA et al. Circulation 2024;150:e351</p>  
-</div></div>  
+<div class="risk-info-popup" id="riskInfoPopup"><h4>Procedure Risk Categories (2024 AHA/ACC)</h4><div class="ri-cat ri-low">LOW (<1% MACE)</div><div>Cataract · Endoscopy · Superficial biopsy · Breast surgery · Dental · Carpal tunnel</div><div class="ri-cat ri-int" style="margin-top:8px">INTERMEDIATE (1-5%)</div><div>TKA/THA · Lap cholecystectomy · Spine · Head & neck · Hernia · CEA · TURP</div><div class="ri-cat ri-high" style="margin-top:8px">HIGH (>5%)</div><div>Open aortic · Major vascular · Whipple · Esophagectomy · Pneumonectomy · Liver resection</div><p class="ref">Fleisher LA et al. Circulation 2024;150:e351</p></div>  
+</div>  
 </div>  
 <div class="form-row">  
 <div class="form-group"><label>Surgical Urgency</label><select id="urgency"><option value="elective" selected>Elective</option><option value="time-sensitive">Time-sensitive (≤3 mo)</option><option value="urgent">Urgent (6-24 hr)</option><option value="emergency">Emergency (≤2 hr)</option></select></div>  
@@ -381,8 +367,7 @@ header{padding:12px}
 <div class="score-box dasi"><h4>Functional</h4><div class="big-score" id="apDASI">0</div><div class="score-desc" id="apDASIDesc">METs</div></div>  
 <div class="score-box biomarker"><h4>Biomarkers</h4><div class="big-score" id="apBiomarker" style="font-size:1rem;padding:8px 0">—</div><div class="score-desc" id="apBiomarkerDesc">—</div></div>  
 </div>  
-</div>
-
+</div>  
 <div class="card">  
 <div class="card-header"><h2 class="card-title">📝 Clinical Findings</h2></div>  
 <div class="section-label">Active Cardiac Conditions</div>  
@@ -397,21 +382,34 @@ header{padding:12px}
 <div class="pci-detail" id="pciDetail">  
 <h4>PCI Details (2024 AHA/ACC)</h4>  
 <div class="form-row">  
-<div class="form-group"><label>Stent Type</label><select id="pciStentType"><option value="des" selected>Drug-Eluting (DES)</option><option value="bms">Bare-Metal (BMS)</option><option value="balloon">Balloon Angioplasty</option><option value="unknown">Unknown</option></select></div>  
-<div class="form-group"><label>Time Since PCI</label><select id="pciTime"><option value="lt1mo"><1 month</option><option value="1-3mo">1-3 months</option><option value="3-6mo" selected>3-6 months</option><option value="6-12mo">6-12 months</option><option value="gt12mo">>12 months</option></select></div>  
+<div class="form-group"><label>Stent Type</label><select id="pciStentType"><option value="des" selected>Drug-Eluting (DES)</option><option value="bms">Bare-Metal (BMS)</option><option value="unknown">Unknown</option></select></div>  
+<div class="form-group"><label>Time Since PCI</label><select id="pciTime"><option value="lt30d"><30 days</option><option value="1-3mo">1-3 months</option><option value="3-6mo" selected>3-6 months</option><option value="6-12mo">6-12 months</option><option value="gt12mo">>12 months</option></select></div>  
 </div>  
 <div class="form-row">  
-<div class="form-group"><label>Indication</label><select id="pciIndication"><option value="acs">ACS / Acute</option><option value="chronic" selected>Chronic Stable</option><option value="complex">Complex</option></select></div>  
+<div class="form-group"><label>Indication for PCI</label><select id="pciIndication"><option value="acs">ACS / Acute MI</option><option value="chronic" selected>Chronic Coronary Disease</option><option value="complex">Complex PCI</option></select></div>  
 <div class="form-group"><label>Current Antiplatelet</label><select id="pciAntiplatelet"><option value="dapt-clop">DAPT: ASA + Clopidogrel</option><option value="dapt-tica">DAPT: ASA + Ticagrelor</option><option value="dapt-pras">DAPT: ASA + Prasugrel</option><option value="asa-only" selected>ASA only</option><option value="none">None</option></select></div>  
 </div>  
 <div class="recommendation-box orange"><h4>PCI Guidance</h4><p id="pciRecText">Select details above.</p></div>  
-<div class="warning-box" style="font-size:.82rem"><strong>Minimum delays:</strong> BMS 1 mo · DES chronic 6 mo · DES ACS/complex 12 mo · Time-sensitive 3 mo may be acceptable<br><strong>P2Y12 hold:</strong> Clopidogrel 5d · Ticagrelor 3d · Prasugrel 7d</div>  
-</div>
-
-<div class="collapsible-toggle" id="algoToggle"><span>📖 2024 AHA/ACC Stepwise Evaluation Algorithm (Table 13)</span><span class="arrow">▼</span></div>  
-<div class="collapsible-body" id="algoBody">  
-<img src="table13.jpg" alt="2024 AHA/ACC Perioperative Evaluation Algorithm - Table 13">  
-<p class="ref" style="margin-top:8px">Fleisher LA et al. Circulation 2024;150:e351. Table 13: Stepwise approach to perioperative cardiac assessment.</p>  
+<div class="warning-box" style="font-size:.82rem;padding:12px 15px">  
+<strong style="display:block;margin-bottom:8px">Timing of Elective NCS After PCI</strong>  
+<table class="pci-ref-table">  
+<tr><th>Scenario</th><th>Minimum Delay</th><th>COR</th></tr>  
+<tr><td>BMS</td><td>≥30 days</td><td>Class 3: Harm if <30d</td></tr>  
+<tr><td>DES — Chronic Coronary Disease</td><td>≥6 months</td><td>Class 2a</td></tr>  
+<tr><td>DES — ACS or Complex PCI</td><td>≥12 months</td><td>Class 1</td></tr>  
+<tr><td>Time-sensitive surgery</td><td>≥3 months*</td><td>Class 2b</td></tr>  
+</table>  
+<p style="font-size:.75rem;margin-top:6px;color:#856404">*May be considered if risk of delaying surgery outweighs risk of MACE</p>  
+<strong style="display:block;margin-top:10px;margin-bottom:6px">P2Y12 Inhibitor Hold Times (Table 12)</strong>  
+<table class="pci-ref-table">  
+<tr><th>Agent</th><th>Hold Time</th></tr>  
+<tr><td>Aspirin</td><td>4 days</td></tr>  
+<tr><td>Clopidogrel</td><td>5–7 days</td></tr>  
+<tr><td>Prasugrel</td><td>7–10 days</td></tr>  
+<tr><td>Ticagrelor</td><td>3–5 days</td></tr>  
+</table>  
+<p style="font-size:.75rem;margin-top:6px;color:#856404">Class 1: Continue aspirin (75-100 mg) if possible post-PCI to reduce cardiac events.</p>  
+</div>  
 </div>
 
 <div class="section-label" style="margin-top:20px">Risk Modifiers</div>  
@@ -423,30 +421,60 @@ header{padding:12px}
 </div>
 
 <div class="section-label" style="margin-top:20px">Medications</div>  
-<div class="form-row">  
-<div class="form-group"><label>Anticoagulation</label><select id="anticoagStatus"><option value="none">None</option><option value="aspirin">Aspirin</option><option value="dapt">DAPT</option><option value="warfarin">Warfarin</option><option value="doac">DOAC</option></select></div>  
-<div class="form-group"><label>Beta-Blocker</label><select id="betaBlocker"><option value="none">Not on BB</option><option value="current">Currently on BB</option></select></div>  
+<div class="med-grid">  
+<div class="form-group"><label>Anticoagulation <button class="risk-info-btn" id="anticoagInfoBtn" type="button">ⓘ</button></label>  
+<select id="anticoagStatus"><option value="none">None</option><option value="aspirin">Aspirin</option><option value="dapt">DAPT</option><option value="warfarin">Warfarin</option><option value="doac">DOAC</option></select>  
+<div class="info-box" id="anticoagInfoBox">  
+<h4>📖 Perioperative OAC Management (Table 13)</h4>  
+<div class="anticoag-img-wrap"><img src="table13.jpg" alt="Perioperative OAC Management - Table 13"></div>  
+<p class="ref" style="margin-top:8px">Fleisher LA et al. Circulation 2024;150:e351. Table 13.</p>  
 </div>  
-<div class="form-row">  
+</div>  
+<div class="form-group"><label>Beta-Blocker</label><select id="betaBlocker"><option value="none">Not on BB</option><option value="current">Currently on BB</option></select></div>  
 <div class="form-group"><label>Statin</label><select id="statinStatus"><option value="on">Currently on statin</option><option value="not-on">Not on statin</option><option value="unknown" selected>Not documented</option></select></div>  
+<div class="form-group"><label>RAASi (ACEi/ARB) <button class="risk-info-btn" id="raasiInfoBtn" type="button">ⓘ</button></label>  
+<select id="raasiStatus"><option value="none" selected>None</option><option value="htn">ACEi/ARB for hypertension</option><option value="hfref">ACEi/ARB for HFrEF</option><option value="arni">ARNI (sacubitril/valsartan) for HFrEF</option><option value="unknown">ACEi/ARB — indication unknown</option></select>  
+<div class="info-box" id="raasiInfoBox">  
+<h4>📖 RAASi Perioperative Management</h4>  
+<p><strong>For Hypertension</strong> (Class IIb, LOE B-R):<br>In patients with controlled BP on chronic RAASi undergoing elevated-risk NCS, omission 24h before surgery may be beneficial to limit intraoperative hypotension.</p>  
+<p style="margin-top:8px"><strong>For HFrEF</strong> (Class IIa, LOE C-EO):<br>Perioperative continuation is reasonable given significant mortality and hospitalization benefits.</p>  
+<div class="trial-box">  
+<h5>Stop-or-Not Trial (JAMA 2024; n=2,222)</h5>  
+<p>• Continuation vs discontinuation 48h preop for major NCS<br>  
+• Primary outcome identical: 22% both groups (RR 1.02; 95% CI 0.83–1.25)<br>  
+• More intraoperative hypotension with continuation (54% vs 41%; aOR 1.78; 95% CI 1.47–2.16)<br>  
+• No subgroup benefit (HF, CKD, elevated BNP)</p>  
+</div>  
+<div class="bottom-line">⚡ Hold RAASi 24h preop for most patients. Continue for HFrEF with close BP monitoring.</div>  
+<p class="ref">Legrand M et al. JAMA 2024; 2024 AHA/ACC Guideline §7.2</p>  
+</div>  
+</div>  
+<div class="form-group"><label>SGLT2i</label>  
+<select id="sglt2Status"><option value="none" selected>None</option><option value="held">Currently on SGLT2i — held ≥3 days preop</option><option value="not-held">Currently on SGLT2i — NOT held ⚠️</option></select>  
+<div class="sglt2-info" id="sglt2Info">⚠️ Canagliflozin, dapagliflozin, and empagliflozin should be stopped ≥3 days and ertugliflozin ≥4 days before scheduled surgery to minimize risk of perioperative euglycemic ketoacidosis. — FDA 2022</div>  
+</div>  
 <div class="form-group"><label>GLP-1 RA</label><select id="glp1"><option value="none" selected>None</option><option value="daily-held">Daily — held</option><option value="weekly-held">Weekly — held ≥1 wk</option><option value="daily-not-held">Daily — NOT held ⚠️</option><option value="weekly-not-held">Weekly — NOT held ⚠️</option></select></div>  
 </div>
 
 <div class="form-group"><label>Additional Comments</label><textarea id="additionalComments" rows="3" placeholder="e.g., LVEF 55%, no valvular disease..."></textarea></div>  
 <div class="disclaimer-preview"><strong>📌 Auto-included:</strong> <em>"This consult serves as a perioperative cardiac risk stratification to predict 30-day cardiac complications risk and mortality. The decision to proceed with the surgery/procedure is made by the performing physician and the patient."</em></div>  
-</div>
-
+</div>  
 <div class="card">  
 <div class="card-header"><h2 class="card-title">📋 Generated A&P</h2><div style="display:flex;gap:8px"><button class="btn btn-outline btn-sm" id="generateBtn">🔄 Generate</button><button class="btn btn-success btn-sm" id="copyBtn">📋 Copy</button></div></div>  
 <div class="ap-output" id="apOutput">Complete calculators and assessment fields, then click Generate.</div>  
 </div>  
+</div>  
 </div>
 
-<!-- ==================== ABOUT TAB ==================== -->  
-<div id="about" class="tab-content">  
+<!-- ABOUT MODAL -->  
+<div class="modal-overlay" id="aboutModal">  
+<div class="modal">  
+<div class="modal-header"><h3>ℹ️ About</h3><button class="modal-close" id="aboutModalClose">✕</button></div>  
+<div class="modal-body">  
 <div class="about-section">  
-<h3>ℹ️ About This Tool</h3>  
-<p>Perioperative cardiovascular risk stratification for inpatient preoperative consultation. Generates copy-paste A&P for EMR.</p>  
+<h3>About This Tool</h3>  
+<p>A comprehensive perioperative cardiovascular assessment and risk stratification tool for cardiologists and trainees to support inpatient and outpatient pre-op consultations.</p>  
+<p>Generates a modifiable assessment and plan that is easily extractable to consult note.</p>  
 <h3 style="margin-top:14px">📊 Included Scores</h3>  
 <ul><li><strong>RCRI</strong> — 30-day MACE (Lee 1999, Davis 2013)</li><li><strong>AUB-HAS2</strong> — 30-day death/MI/stroke (Dakik 2019)</li><li><strong>DASI</strong> — validated functional capacity (Hlatky 1989, METS 2018)</li><li><strong>Cardiac Biomarkers</strong> — NT-proBNP/hs-troponin (2024 AHA/ACC)</li></ul>  
 <h3 style="margin-top:14px">📖 Guideline Basis</h3>  
@@ -454,15 +482,16 @@ header{padding:12px}
 <h3 style="margin-top:14px">🔒 Privacy</h3>  
 <p><strong>100% client-side.</strong> No data transmitted, stored, or logged. No analytics or cookies.</p>  
 <h3 style="margin-top:14px">📚 References</h3>  
-<ul class="cite"><li>Lee TH et al. Circulation 1999;100:1043</li><li>Davis C et al. Systematic review 2013</li><li>Dakik HA et al. JAHA 2019;8:e016228</li><li>Hlatky MA et al. Am J Cardiol 1989;64:651</li><li>Wijeysundera DN et al. Lancet 2018;391:2631</li><li>Fleisher LA et al. Circulation 2024;150:e351</li><li>Mehran R et al. JACC 2017</li></ul>  
+<ul class="cite"><li>Lee TH et al. Circulation 1999;100:1043</li><li>Davis C et al. Systematic review 2013</li><li>Dakik HA et al. JAHA 2019;8:e016228</li><li>Hlatky MA et al. Am J Cardiol 1989;64:651</li><li>Wijeysundera DN et al. Lancet 2018;391:2631</li><li>Fleisher LA et al. Circulation 2024;150:e351</li><li>Legrand M et al. JAMA 2024 (Stop-or-Not)</li></ul>  
 <h3 style="margin-top:14px">👨‍⚕️ Author</h3>  
-<p>Sumer Moussa, MD — Cardiovascular Disease Fellow</p>  
+<p>Sumer Moussa, MD<br>Cardiovascular Disease Fellow</p>  
 <p style="margin-top:8px"><a href="https://riskcalculator.facs.org/RiskCalculator/" target="_blank" class="external-link">ACS NSQIP Surgical Risk Calculator →</a></p>  
+</div>  
 </div>  
 </div>  
 </div>
 
-<!-- ==================== BROWSE MODAL ==================== -->  
+<!-- BROWSE MODAL -->  
 <div class="modal-overlay" id="procModal">  
 <div class="modal">  
 <div class="modal-header"><h3>📋 Procedure Risk Lookup</h3><button class="modal-close" id="procModalClose">✕</button></div>  
@@ -470,7 +499,6 @@ header{padding:12px}
 <div class="modal-body" id="procModalBody"></div>  
 </div>  
 </div>
-
 <script>  
 var PROCEDURES=[  
 {n:'EGD (esophagogastroduodenoscopy)',r:'low',c:'Endoscopy'},  
@@ -558,7 +586,23 @@ aubhas:function(c){var weights={heartDisease:1,angina:1,age75:1,hbLow:1,vascular
 dasi:function(answers){var weights=[2.75,1.75,2.75,5.50,8.00,2.70,3.50,8.00,4.50,5.25,6.00,7.50];var raw=0;for(var i=0;i<12;i++){if(answers[i])raw+=weights[i]}var vo2=0.43*raw+9.6;var mets=vo2/3.5;var category=raw>34?'adequate':raw>=25?'borderline':'poor';return{score:Math.round(raw*10)/10,vo2:Math.round(vo2*10)/10,mets:Math.round(mets*10)/10,category:category}},  
 biomarkers:function(input){var age=input.age;var hasCVD=!!input.hasCVD;var hasSymptoms=!!input.hasSymptoms;var ntProBnp=(input.ntProBnp===null||input.ntProBnp===undefined||input.ntProBnp==='')?null:Number(input.ntProBnp);var hsTroponinElevated=input.hsTroponinElevated===true?true:null;var indicated=age>=65||hasCVD||(age>=45&&hasSymptoms);if(!indicated)return{indicated:false,summary:'not-indicated'};var ntThreshold=age>=75?450:125;var ntElevated=(ntProBnp===null)?null:ntProBnp>=ntThreshold;var anyMeasured=ntProBnp!==null||hsTroponinElevated!==null;var anyElevated=(ntElevated===true)||(hsTroponinElevated===true);var summary;if(!anyMeasured)summary='indicated-not-measured';else if(anyElevated)summary='elevated';else summary='normal';return{indicated:indicated,ntThreshold:ntThreshold,ntElevated:ntElevated,hsTroponinElevated:hsTroponinElevated,anyElevated:anyElevated,summary:summary}},  
 autoRisk:function(r,a){if(r>=3||a>=4)return'high';if(r>=2||a>=2)return'intermediate';return'low'},  
-pciGuidance:function(pci){var stent=pci.stentType,time=pci.time,indication=pci.indication,ap=pci.antiplatelet;var minDelay='',safe=false;if(stent==='bms'){minDelay='1 month';safe=(time!=='lt1mo')}else if(stent==='balloon'){minDelay='2 weeks';safe=true}else if(stent==='des'){if(indication==='acs'||indication==='complex'){minDelay='12 months';safe=(time==='gt12mo')}else{minDelay='6 months';safe=(time==='6-12mo'||time==='gt12mo')}}else{minDelay='6-12 months (assume DES)';safe=(time==='6-12mo'||time==='gt12mo')}var rec=safe?'Minimum recommended delay ('+minDelay+') has been met. ':'Minimum recommended delay ('+minDelay+') has NOT been met \u2014 increased stent thrombosis risk. ';if(ap==='dapt-clop')rec+='On DAPT with clopidogrel. Hold clopidogrel 5 days preop. Continue aspirin.';else if(ap==='dapt-tica')rec+='On DAPT with ticagrelor. Hold ticagrelor 3 days preop. Continue aspirin.';else if(ap==='dapt-pras')rec+='On DAPT with prasugrel. Hold prasugrel 7 days preop. Continue aspirin.';else if(ap==='asa-only')rec+='P2Y12 course completed. Continue aspirin perioperatively.';else rec+='Not on antiplatelet \u2014 verify with interventional cardiology.';rec+=' Coordinate timing with interventional cardiology and surgical team.';return{minDelay:minDelay,safe:safe,recommendation:rec}},  
+pciGuidance:function(pci){  
+    var stent=pci.stentType,time=pci.time,indication=pci.indication,ap=pci.antiplatelet;  
+    var minDelay='',safe=false;  
+    if(stent==='bms'){minDelay='30 days';safe=(time!=='lt30d')}  
+    else if(stent==='des'){  
+        if(indication==='acs'||indication==='complex'){minDelay='12 months';safe=(time==='gt12mo')}  
+        else{minDelay='6 months';safe=(time==='6-12mo'||time==='gt12mo')}  
+    }else{minDelay='6-12 months (assume DES)';safe=(time==='6-12mo'||time==='gt12mo')}  
+    var rec=safe?'Minimum recommended delay ('+minDelay+') has been met. ':'Minimum recommended delay ('+minDelay+') has NOT been met \u2014 increased stent thrombosis risk. ';  
+    if(ap==='dapt-clop')rec+='On DAPT with clopidogrel. Hold clopidogrel 5-7 days preop. Continue aspirin (75-100 mg).';  
+    else if(ap==='dapt-tica')rec+='On DAPT with ticagrelor. Hold ticagrelor 3-5 days preop. Continue aspirin (75-100 mg).';  
+    else if(ap==='dapt-pras')rec+='On DAPT with prasugrel. Hold prasugrel 7-10 days preop. Continue aspirin (75-100 mg).';  
+    else if(ap==='asa-only')rec+='P2Y12 course completed. Continue aspirin (75-100 mg) perioperatively.';  
+    else rec+='Not on antiplatelet \u2014 verify with interventional cardiology.';  
+    rec+=' Coordinate timing with interventional cardiology and surgical team.';  
+    return{minDelay:minDelay,safe:safe,recommendation:rec}  
+},  
 generateAP:function(state){  
     var RL={low:'Low',intermediate:'Intermediate',high:'High'};  
     var URG={elective:'Elective','time-sensitive':'Time-sensitive',urgent:'Urgent',emergency:'Emergency'};  
@@ -590,7 +634,7 @@ generateAP:function(state){
     if(conds.length){ap+='\n\nACTIVE CARDIAC CONDITIONS:\n\u2022 '+conds.join('\n\u2022 ')}  
     else{ap+='\n\nACTIVE CARDIAC CONDITIONS:\nNo active cardiac conditions identified (no ACS, no MI within 60 days, no decompensated heart failure, no severe aortic stenosis, no hemodynamically significant arrhythmia).'}
 
-    if(state.conditions.recentPCI&&state.pci){var pg=PreopCalc.pciGuidance(state.pci);var sN={des:'DES',bms:'BMS',balloon:'Balloon angioplasty',unknown:'Unknown'};var tN={lt1mo:'<1 month','1-3mo':'1-3 months','3-6mo':'3-6 months','6-12mo':'6-12 months',gt12mo:'>12 months'};ap+='\n\nPCI DETAILS:\n\u2022 Stent: '+sN[state.pci.stentType]+'\n\u2022 Time since PCI: '+tN[state.pci.time]+'\n\u2022 Minimum recommended delay: '+pg.minDelay+'\n\u2022 Delay met: '+(pg.safe?'Yes':'NO \u2014 increased stent thrombosis risk')}
+    if(state.conditions.recentPCI&&state.pci){var pg=PreopCalc.pciGuidance(state.pci);var sN={des:'DES',bms:'BMS',unknown:'Unknown'};var tN={lt30d:'<30 days','1-3mo':'1-3 months','3-6mo':'3-6 months','6-12mo':'6-12 months',gt12mo:'>12 months'};ap+='\n\nPCI DETAILS:\n\u2022 Stent: '+sN[state.pci.stentType]+'\n\u2022 Time since PCI: '+tN[state.pci.time]+'\n\u2022 Minimum recommended delay: '+pg.minDelay+'\n\u2022 Delay met: '+(pg.safe?'Yes':'NO \u2014 increased stent thrombosis risk')}
 
     var mods=[];if(state.modifiers.severePH)mods.push('Severe pulmonary HTN');if(state.modifiers.priorCABG)mods.push('Prior CABG');if(state.modifiers.severeValve)mods.push('Severe valvular disease (non-AS)');if(state.modifiers.frailty)mods.push('Frailty');  
     if(mods.length)ap+='\n\nRISK MODIFIERS:\n\u2022 '+mods.join('\n\u2022 ');
@@ -634,9 +678,19 @@ generateAP:function(state){
     else if(state.statin==='not-on')ap+='\n\u2022 Patient not currently on statin. Consider initiation per lipid guidelines.';  
     else ap+='\n\u2022 Continue statin perioperatively if patient is on one.';
 
-    if(state.anticoag==='dapt'&&!state.conditions.recentPCI)ap+='\n\u2022 Continue ASA. Coordinate P2Y12 hold (clopidogrel 5d, ticagrelor 3d, prasugrel 7d).';  
-    else if(state.anticoag==='warfarin')ap+='\n\u2022 Coordinate warfarin; determine bridging based on thrombotic vs bleeding risk.';  
-    else if(state.anticoag==='doac')ap+='\n\u2022 Hold DOAC preop (24-48 hr; longer if CrCl reduced).';  
+    // RAASi  
+    if(state.raasi==='htn')ap+='\n\u2022 Hold ACEi/ARB 24 hours before surgery to limit intraoperative hypotension (Class IIb, LOE B-R). Resume postoperatively when hemodynamically stable.';  
+    else if(state.raasi==='hfref')ap+='\n\u2022 Continue ACEi/ARB perioperatively (HFrEF indication, Class IIa, LOE C-EO). Monitor BP closely intraoperatively.';  
+    else if(state.raasi==='arni')ap+='\n\u2022 Continue ARNI perioperatively (HFrEF indication). _No data currently exist regarding perioperative harm or benefit of sacubitril/valsartan; continuation is reasonable given mortality benefit._';  
+    else if(state.raasi==='unknown')ap+='\n\u2022 ACEi/ARB indication unclear \u2014 consider holding 24 hours preop; resume postoperatively when hemodynamically stable.';
+
+    // SGLT2i  
+    if(state.sglt2==='held')ap+='\n\u2022 SGLT2i appropriately held \u22653 days preop to minimize risk of perioperative euglycemic ketoacidosis (FDA 2022).';  
+    else if(state.sglt2==='not-held')ap+='\n\u2022 \u26a0\ufe0f SGLT2i NOT held \u2014 risk of perioperative euglycemic ketoacidosis. Consider delaying surgery if feasible. Discontinue immediately and hold \u22653 days before proceeding.';
+
+    if(state.anticoag==='dapt'&&!state.conditions.recentPCI)ap+='\n\u2022 Continue ASA. Coordinate P2Y12 hold (clopidogrel 5-7d, ticagrelor 3-5d, prasugrel 7-10d).';  
+    else if(state.anticoag==='warfarin')ap+='\n\u2022 Coordinate warfarin; determine bridging based on thrombotic vs bleeding risk (see Table 13).';  
+    else if(state.anticoag==='doac')ap+='\n\u2022 Hold DOAC preop per time-based interruption protocol (24-48 hr; longer if CrCl reduced). See Table 13.';  
     else if(state.anticoag==='aspirin'&&!state.conditions.recentPCI)ap+='\n\u2022 Continue aspirin if bleeding risk acceptable.';
 
     if(state.glp1==='daily-not-held')ap+='\n\u2022 \u26a0\ufe0f Daily GLP-1 RA NOT held \u2014 aspiration risk. Consider RSI, gastric ultrasound, or delay.';  
@@ -667,42 +721,60 @@ function renderModal(query){var body=document.getElementById('procModalBody');cl
 function autoSetRisk(){var r=PreopCalc.rcri(readRCRI());var a=PreopCalc.aubhas(readAUBHAS());var auto=PreopCalc.autoRisk(r.score,a.score);document.getElementById('patientRisk').value=auto;var lb={low:'Low',intermediate:'Intermediate',high:'High'};document.getElementById('autoRiskNote').textContent='Auto: '+lb[auto]+' (RCRI '+r.score+', AUB-HAS2 '+a.score+') \u2014 you can override'}  
 function updatePCIPanel(){var v=document.getElementById('recentPCI').checked;document.getElementById('pciDetail').classList.toggle('visible',v);if(v)updatePCIRec()}  
 function updatePCIRec(){var g=PreopCalc.pciGuidance(readPCI());document.getElementById('pciRecText').textContent=g.recommendation}  
+function updateSGLT2Info(){var v=document.getElementById('sglt2Status').value;document.getElementById('sglt2Info').classList.toggle('visible',v!=='none')}  
 function calcRCRI(){var r=PreopCalc.rcri(readRCRI());document.getElementById('rcriScore').textContent=r.score;document.getElementById('summaryRCRI').textContent=r.score;document.querySelectorAll('#rcriTable tr').forEach(function(row,i){row.classList.remove('highlight-row');if((r.score===0&&i===0)||(r.score===1&&i===1)||(r.score===2&&i===2)||(r.score>=3&&i===3))row.classList.add('highlight-row')});for(var i=1;i<=6;i++){var cb=document.getElementById('rcri'+i);cb.closest('.calc-item').classList.toggle('selected',cb.checked)}var s={'very-low':{l:'Very Low',c:'risk-low',w:'10%',b:'var(--success)'},low:{l:'Low',c:'risk-low',w:'18%',b:'var(--success)'},intermediate:{l:'Intermediate',c:'risk-moderate',w:'35%',b:'var(--warning)'},high:{l:'High',c:'risk-high',w:'55%',b:'var(--danger)'}};var st=s[r.category];document.getElementById('rcriRiskLevel').textContent=st.l;document.getElementById('rcriRiskLevel').className='risk-level '+st.c;document.getElementById('rcriRiskPercent').textContent='30-day MACE: '+r.rate+'%';document.getElementById('rcriBar').style.width=st.w;document.getElementById('rcriBar').style.background=st.b;document.getElementById('summaryRCRIDesc').textContent=st.l;setRecBox('rcriRecommendation','\ud83d\udca1 Interpretation','RCRI '+r.score+': ~'+r.rate+'% 30-day MACE risk.');updateSummary()}  
 function calcAUBHAS(){var r=PreopCalc.aubhas(readAUBHAS());document.getElementById('aubhasScore').textContent=r.score;document.getElementById('summaryAUBHAS').textContent=r.score;document.querySelectorAll('#aubhasTable tr').forEach(function(row,i){row.classList.remove('highlight-row');if((r.category==='low'&&i===0)||(r.category==='intermediate'&&i===1)||(r.category==='high'&&i===2))row.classList.add('highlight-row')});for(var i=1;i<=6;i++){var cb=document.getElementById('aubhas'+i);cb.closest('.calc-item').classList.toggle('selected',cb.checked)}var s={low:{l:'Low',c:'risk-low',w:'15%',b:'var(--success)'},intermediate:{l:'Intermediate',c:'risk-moderate',w:'45%',b:'var(--warning)'},high:{l:'High',c:'risk-high',w:'75%',b:'var(--danger)'}};var st=s[r.category];document.getElementById('aubhasRiskLevel').textContent=st.l;document.getElementById('aubhasRiskLevel').className='risk-level '+st.c;document.getElementById('aubhasRiskPercent').textContent='30-day CV: '+r.rate+'%';document.getElementById('aubhasBar').style.width=st.w;document.getElementById('aubhasBar').style.background=st.b;document.getElementById('summaryAUBHASDesc').textContent=st.l;setRecBox('aubhasRecommendation','\ud83d\udca1 Interpretation','AUB-HAS2 '+r.score+': '+r.rate+'% 30-day CV risk.');updateSummary()}  
 function calcDASI(){var r=PreopCalc.dasi(readDASI());document.getElementById('dasiScore').textContent=r.score;document.getElementById('dasiMets').textContent='\u2248 '+r.mets+' METs (VO\u2082peak '+r.vo2+')';document.getElementById('summaryDASI').textContent=r.score;document.getElementById('summaryDASIDesc').textContent=r.mets+' METs';document.querySelectorAll('#dasiTable tr').forEach(function(row,i){row.classList.remove('highlight-row');if((r.category==='poor'&&i===0)||(r.category==='borderline'&&i===1)||(r.category==='adequate'&&i===2))row.classList.add('highlight-row')});for(var i=1;i<=12;i++){var cb=document.getElementById('dasi'+i);cb.closest('.calc-item').classList.toggle('selected',cb.checked)}var s={poor:{l:'Poor',c:'risk-high'},borderline:{l:'Borderline',c:'risk-moderate'},adequate:{l:'Adequate',c:'risk-low'}};var st=s[r.category];document.getElementById('dasiRiskLevel').textContent=st.l;document.getElementById('dasiRiskLevel').className='risk-level '+st.c;setRecBox('dasiRecommendation','\ud83d\udca1 Functional capacity','DASI '+r.score+' \u2014 '+st.l.toLowerCase()+' functional capacity.');updateSummary()}  
 function updateBiomarker(){var r=PreopCalc.biomarkers(readBiomarker());var sE=document.getElementById('bmStatus');var lE=document.getElementById('bmRiskLevel');var smE=document.getElementById('summaryBiomarker');var sdE=document.getElementById('summaryBiomarkerDesc');if(!r.indicated){sE.textContent='\u2014';lE.textContent='Not indicated';lE.className='risk-level risk-low';setRecBox('bmRecommendation','\ud83d\udca1','Not routinely indicated.');smE.textContent='N/A';sdE.textContent='Not indicated';updateSummary();return}if(r.summary==='indicated-not-measured'){sE.textContent='?';lE.textContent='Check';lE.className='risk-level risk-moderate';setRecBox('bmRecommendation','\ud83d\udca1','NT-proBNP/hs-troponin reasonable per 2024 AHA/ACC.');smE.textContent='Check';sdE.textContent='Indicated'}else if(r.summary==='elevated'){sE.textContent='\u2191';lE.textContent='Elevated';lE.className='risk-level risk-high';setRecBox('bmRecommendation','\ud83d\udca1','Elevated \u2014 increased risk. Consider echocardiography if findings would change management.');smE.textContent='\u2191';sdE.textContent='Elevated'}else{sE.textContent='\u2713';lE.textContent='Normal';lE.className='risk-level risk-low';setRecBox('bmRecommendation','\ud83d\udca1','Normal \u2014 reassuring. No further testing if no active conditions.');smE.textContent='\u2713';sdE.textContent='Normal'}updateSummary()}  
 function updateSummary(){document.getElementById('apRCRI').textContent=document.getElementById('rcriScore').textContent;document.getElementById('apAUBHAS').textContent=document.getElementById('aubhasScore').textContent;var fc=getFuncStatus();if(fc.source==='dasi'){document.getElementById('apDASI').textContent=fc.dasiScore;document.getElementById('apDASIDesc').textContent=fc.mets+' METs'}else if(fc.source==='adequate'){document.getElementById('apDASI').textContent='\u22654';document.getElementById('apDASIDesc').textContent='Adequate'}else if(fc.source==='poor'){document.getElementById('apDASI').textContent='<4';document.getElementById('apDASIDesc').textContent='Poor'}else if(fc.source==='cannot'){document.getElementById('apDASI').textContent='N/A';document.getElementById('apDASIDesc').textContent='Cannot assess'}else{document.getElementById('apDASI').textContent=document.getElementById('dasiScore').textContent;document.getElementById('apDASIDesc').textContent=document.getElementById('summaryDASIDesc').textContent}document.getElementById('apBiomarker').textContent=document.getElementById('summaryBiomarker').textContent;document.getElementById('apRCRIDesc').textContent=document.getElementById('summaryRCRIDesc').textContent;document.getElementById('apAUBHASDesc').textContent=document.getElementById('summaryAUBHASDesc').textContent;document.getElementById('apBiomarkerDesc').textContent=document.getElementById('summaryBiomarkerDesc').textContent}  
-function readFullState(){return{procedure:document.getElementById('procedureName').value.trim(),procedureRisk:document.getElementById('procedureRisk').value,urgency:document.getElementById('urgency').value,patientRisk:document.getElementById('patientRisk').value,anticoag:document.getElementById('anticoagStatus').value,betaBlocker:document.getElementById('betaBlocker').value,statin:document.getElementById('statinStatus').value,glp1:document.getElementById('glp1').value,additionalComments:document.getElementById('additionalComments').value.trim(),conditions:{acs:document.getElementById('acs').checked,decompHF:document.getElementById('decompHF').checked,severeAS:document.getElementById('severeAS').checked,sigArrhythmia:document.getElementById('sigArrhythmia').checked,recentPCI:document.getElementById('recentPCI').checked,recentMI:document.getElementById('recentMI').checked},modifiers:{severePH:document.getElementById('modSeverePH').checked,priorCABG:document.getElementById('modPriorCABG').checked,severeValve:document.getElementById('modValve').checked,frailty:document.getElementById('modFrailty').checked},pci:document.getElementById('recentPCI').checked?readPCI():null,rcri:PreopCalc.rcri(readRCRI()),aubhas:PreopCalc.aubhas(readAUBHAS()),funcStatus:getFuncStatus(),biomarkers:PreopCalc.biomarkers(readBiomarker())}}  
+function readFullState(){return{procedure:document.getElementById('procedureName').value.trim(),procedureRisk:document.getElementById('procedureRisk').value,urgency:document.getElementById('urgency').value,patientRisk:document.getElementById('patientRisk').value,anticoag:document.getElementById('anticoagStatus').value,betaBlocker:document.getElementById('betaBlocker').value,statin:document.getElementById('statinStatus').value,raasi:document.getElementById('raasiStatus').value,sglt2:document.getElementById('sglt2Status').value,glp1:document.getElementById('glp1').value,additionalComments:document.getElementById('additionalComments').value.trim(),conditions:{acs:document.getElementById('acs').checked,decompHF:document.getElementById('decompHF').checked,severeAS:document.getElementById('severeAS').checked,sigArrhythmia:document.getElementById('sigArrhythmia').checked,recentPCI:document.getElementById('recentPCI').checked,recentMI:document.getElementById('recentMI').checked},modifiers:{severePH:document.getElementById('modSeverePH').checked,priorCABG:document.getElementById('modPriorCABG').checked,severeValve:document.getElementById('modValve').checked,frailty:document.getElementById('modFrailty').checked},pci:document.getElementById('recentPCI').checked?readPCI():null,rcri:PreopCalc.rcri(readRCRI()),aubhas:PreopCalc.aubhas(readAUBHAS()),funcStatus:getFuncStatus(),biomarkers:PreopCalc.biomarkers(readBiomarker())}}  
 function generateAP(){document.getElementById('apOutput').textContent=PreopCalc.generateAP(readFullState())}  
 function copyAP(){var t=document.getElementById('apOutput').textContent;if(t.indexOf('Complete')===0){generateAP();t=document.getElementById('apOutput').textContent}navigator.clipboard.writeText(t).then(function(){var b=document.getElementById('copyBtn');b.textContent='\u2705 Copied!';setTimeout(function(){b.textContent='\ud83d\udccb Copy'},2000)}).catch(function(){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('Copied!')})}  
-function resetAll(){if(!confirm('Reset all data?'))return;document.querySelectorAll('input[type="checkbox"]').forEach(function(cb){cb.checked=false;var ci=cb.closest('.calc-item');if(ci)ci.classList.remove('selected');var ci2=cb.closest('.checkbox-item');if(ci2)ci2.classList.remove('selected','selected-danger','selected-warning')});document.getElementById('procedureRisk').value='intermediate';document.getElementById('urgency').value='elective';document.getElementById('patientRisk').value='low';document.getElementById('funcOverride').value='dasi';document.getElementById('anticoagStatus').value='none';document.getElementById('betaBlocker').value='none';document.getElementById('statinStatus').value='unknown';document.getElementById('glp1').value='none';document.getElementById('pciStentType').value='des';document.getElementById('pciTime').value='3-6mo';document.getElementById('pciIndication').value='chronic';document.getElementById('pciAntiplatelet').value='asa-only';document.getElementById('bmAge').value='65';document.getElementById('bmNTproBNP').value='';document.getElementById('procedureName').value='';document.getElementById('additionalComments').value='';document.getElementById('pciDetail').classList.remove('visible');document.getElementById('autoRiskNote').textContent='';document.getElementById('riskInfoPopup').classList.remove('visible');document.getElementById('algoBody').classList.remove('visible');document.getElementById('algoToggle').classList.remove('open');document.getElementById('apOutput').textContent='Complete calculators and assessment fields, then click Generate.';calcRCRI();calcAUBHAS();calcDASI();updateBiomarker()}
+function resetAll(){if(!confirm('Reset all data?'))return;document.querySelectorAll('input[type="checkbox"]').forEach(function(cb){cb.checked=false;var ci=cb.closest('.calc-item');if(ci)ci.classList.remove('selected');var ci2=cb.closest('.checkbox-item');if(ci2)ci2.classList.remove('selected','selected-danger','selected-warning')});document.getElementById('procedureRisk').value='intermediate';document.getElementById('urgency').value='elective';document.getElementById('patientRisk').value='low';document.getElementById('funcOverride').value='dasi';document.getElementById('anticoagStatus').value='none';document.getElementById('betaBlocker').value='none';document.getElementById('statinStatus').value='unknown';document.getElementById('raasiStatus').value='none';document.getElementById('sglt2Status').value='none';document.getElementById('glp1').value='none';document.getElementById('pciStentType').value='des';document.getElementById('pciTime').value='3-6mo';document.getElementById('pciIndication').value='chronic';document.getElementById('pciAntiplatelet').value='asa-only';document.getElementById('bmAge').value='65';document.getElementById('bmNTproBNP').value='';document.getElementById('procedureName').value='';document.getElementById('additionalComments').value='';document.getElementById('pciDetail').classList.remove('visible');document.getElementById('autoRiskNote').textContent='';document.getElementById('riskInfoPopup').classList.remove('visible');document.getElementById('anticoagInfoBox').classList.remove('visible');document.getElementById('raasiInfoBox').classList.remove('visible');document.getElementById('sglt2Info').classList.remove('visible');document.getElementById('apOutput').textContent='Complete calculators and assessment fields, then click Generate.';calcRCRI();calcAUBHAS();calcDASI();updateBiomarker()}
 
 document.addEventListener('DOMContentLoaded',function(){  
     document.getElementById('dismissBannerBtn').addEventListener('click',function(){document.getElementById('disclaimerBanner').style.display='none'});  
     document.getElementById('resetBtn').addEventListener('click',resetAll);  
-    document.getElementById('apBtn').addEventListener('click',function(){showTab('assessment');generateAP()});  
     document.getElementById('generateBtn').addEventListener('click',generateAP);  
     document.getElementById('copyBtn').addEventListener('click',copyAP);  
+    // About modal  
+    document.getElementById('aboutBtn').addEventListener('click',function(){document.getElementById('aboutModal').classList.add('visible')});  
+    document.getElementById('aboutModalClose').addEventListener('click',function(){document.getElementById('aboutModal').classList.remove('visible')});  
+    document.getElementById('aboutModal').addEventListener('click',function(ev){if(ev.target===document.getElementById('aboutModal'))document.getElementById('aboutModal').classList.remove('visible')});  
+    // Tabs  
     document.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){showTab(t.dataset.tab)})});  
     document.querySelectorAll('.calc-tab').forEach(function(t){t.addEventListener('click',function(){showCalc(t.dataset.calc)})});  
     document.querySelectorAll('.subtab').forEach(function(t){t.addEventListener('click',function(){showSubtab(t.dataset.subtab)})});  
+    // Calc items  
     document.querySelectorAll('.calc-item').forEach(function(item){item.addEventListener('click',function(ev){var cb=item.querySelector('input[type="checkbox"]');if(ev.target!==cb)cb.checked=!cb.checked;item.classList.toggle('selected',cb.checked);var type=item.dataset.calcType;if(type==='rcri')calcRCRI();else if(type==='aubhas')calcAUBHAS();else if(type==='dasi')calcDASI()})});  
+    // Conditions & modifiers  
     document.querySelectorAll('#conditionsGroup .checkbox-item, #modifiersGroup .checkbox-item').forEach(function(item){item.addEventListener('click',function(ev){var cb=item.querySelector('input[type="checkbox"]');if(ev.target!==cb)cb.checked=!cb.checked;var style=item.dataset.style;item.classList.remove('selected','selected-danger','selected-warning');if(cb.checked){if(style==='danger')item.classList.add('selected-danger');else if(style==='warning')item.classList.add('selected-warning');else item.classList.add('selected')}if(cb.id==='recentPCI')updatePCIPanel()})});  
+    // PCI changes  
     ['pciStentType','pciTime','pciIndication','pciAntiplatelet'].forEach(function(id){document.getElementById(id).addEventListener('change',updatePCIRec)});  
+    // Biomarker inputs  
     ['bmAge','bmNTproBNP'].forEach(function(id){document.getElementById(id).addEventListener('input',updateBiomarker)});  
     ['bmCVD','bmSymptoms','bmTroponinElevated'].forEach(function(id){document.getElementById(id).addEventListener('change',updateBiomarker)});  
+    // SGLT2i  
+    document.getElementById('sglt2Status').addEventListener('change',updateSGLT2Info);  
+    // Procedure search  
     var procInput=document.getElementById('procedureName');var procSug=document.getElementById('procSuggestions');  
     procInput.addEventListener('input',function(){var q=procInput.value;if(q.length<2){procSug.classList.remove('visible');return}renderSuggestions(filterProcs(q),procSug)});  
     procInput.addEventListener('focus',function(){if(procInput.value.length>=2)renderSuggestions(filterProcs(procInput.value),procSug)});  
     document.addEventListener('click',function(ev){if(!ev.target.closest('.proc-input-wrap'))procSug.classList.remove('visible')});  
+    // Browse modal  
     document.getElementById('procBrowseBtn').addEventListener('click',function(ev){ev.preventDefault();document.getElementById('procModal').classList.add('visible');document.getElementById('procModalSearch').value='';renderModal('');document.getElementById('procModalSearch').focus()});  
     document.getElementById('procModalClose').addEventListener('click',function(){document.getElementById('procModal').classList.remove('visible')});  
     document.getElementById('procModal').addEventListener('click',function(ev){if(ev.target===document.getElementById('procModal'))document.getElementById('procModal').classList.remove('visible')});  
     document.getElementById('procModalSearch').addEventListener('input',function(){renderModal(this.value)});  
+    // Risk info popup  
     document.getElementById('riskInfoBtn').addEventListener('click',function(ev){ev.preventDefault();document.getElementById('riskInfoPopup').classList.toggle('visible')});  
-    document.getElementById('algoToggle').addEventListener('click',function(){this.classList.toggle('open');document.getElementById('algoBody').classList.toggle('visible')});  
+    // Anticoag info  
+    document.getElementById('anticoagInfoBtn').addEventListener('click',function(ev){ev.preventDefault();document.getElementById('anticoagInfoBox').classList.toggle('visible')});  
+    // RAASi info  
+    document.getElementById('raasiInfoBtn').addEventListener('click',function(ev){ev.preventDefault();document.getElementById('raasiInfoBox').classList.toggle('visible')});  
+    // Init  
     calcRCRI();calcAUBHAS();calcDASI();updateBiomarker();  
 });  
 </script>  
 </body>  
-</html>  
+</html>      
